@@ -5,7 +5,7 @@ module.exports = class Bridge {
     constructor({WAMP: {endpoint: wampEndpoint}}) {
         this.wampEndpoint = wampEndpoint // format {url: String, realm: String}
 
-        this.zreObserverNode = Zyre.new({name: 'WAMP-ZRE Bridge'})
+        this.zreObserverNode = Zyre.new({name: 'WAMP Bridge'})
         this.wampObserverNode = new Autobahn.Connection(this.wampEndpoint)
 
         /**
@@ -15,10 +15,10 @@ module.exports = class Bridge {
         this.zreReflectionsOfWampNodes = []
 
         const  onZreNetwork = this.zreObserverNode.start()
-        const onWampNetwork = new Promise(resolve => {
-            this.wampObserverNode.onopen = () => resolve()
+        const onWampNetwork = new Promise(enterWampNetwork => {
+            this.wampObserverNode.onopen = session => enterWampNetwork()
+            this.wampObserverNode.open()
         })
-        this.wampObserverNode.open()
         Promise.all([onZreNetwork, onWampNetwork]).then(() => {
             this.observeWampNetwork()
             this.observeZreNetwork()
@@ -28,7 +28,7 @@ module.exports = class Bridge {
     observeZreNetwork() {
         this.zreObserverNode.on('connect', (id, name, headers) => {
             const wampReflection = new Autobahn.Connection(this.wampEndpoint)
-            wampReflection.onopen = (session) => {
+            wampReflection.onopen = session => {
                 session.register(`ZRE-bridge.${id}.whisper`, (argumentArray, argumentObject, details) => {
                     return new Promise((resolve, reject) => {
                         if (details.caller === undefined) {
@@ -44,6 +44,8 @@ module.exports = class Bridge {
     }
 
     observeWampNetwork() {
-
+		this.wampObserverNode.session.subscribe('ZRE-Bridge.shout', (_, {group, message}, details) => {
+			this.zreObserverNode.shout(group, message)
+		})
     }
 }
