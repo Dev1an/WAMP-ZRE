@@ -1,0 +1,32 @@
+{
+  "name": "wamp-zre",
+  "version": "0.0.1",
+  "description": "Bridge between WAMP en ZRE",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dev1an/WAMP-ZRE.git"
+  },
+  "keywords": [
+    "WAMP",
+    "ZRE",
+    "Bridge",
+    "Adapter",
+    "Mapping",
+    "Converter",
+    "Mediator"
+  ],
+  "author": "Devian",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dev1an/WAMP-ZRE/issues"
+  },
+  "homepage": "https://github.com/Dev1an/WAMP-ZRE#readme",
+  "dependencies": {
+    "autobahn": "^17.5.2",
+    "zyre.js": "^1.0.6"
+  }
+}
