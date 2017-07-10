@@ -4,7 +4,7 @@
   "description": "Bridge between WAMP en ZRE",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -28,5 +28,8 @@
   "dependencies": {
     "autobahn": "^17.5.2",
     "zyre.js": "^1.0.6"
+  },
+  "devDependencies": {
+    "jest": "^20.0.4"
   }
 }
