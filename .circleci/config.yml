@@ -36,8 +36,5 @@ jobs:
             cp junit.xml $CIRCLE_TEST_REPORTS/junit/junit.xml
       - store_artifacts:
           path: junit.xml
-#      - store_artifacts:
-#          path: coverage
-#          prefix: coverage
       - store_test_results:
-          path: junit.xml
+          path: $CIRCLE_TEST_REPORTS/junit/junit.xml
