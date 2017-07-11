@@ -1,13 +1,14 @@
 /**
  * Created by damiaan on 10/07/17.
  */
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
 
 const Bridge = require('./')
 const Zyre = require('zyre.js')
 const Autobahn = require('autobahn')
 
 const wampEndpoint = {
-	url: 'ws://localhost:32782/ws',
+	url: 'ws://localhost:8080/ws',
 	realm: 'realm1'
 }
 const bridge = new Bridge({WAMP: {endpoint: wampEndpoint} })
