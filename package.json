@@ -30,6 +30,10 @@
     "zyre.js": "^1.0.6"
   },
   "devDependencies": {
-    "jest": "^20.0.4"
+    "jest": "^20.0.4",
+    "jest-junit": "^1.5.1"
+  },
+  "jest": {
+    "testResultsProcessor": "./node_modules/jest-junit"
   }
 }
