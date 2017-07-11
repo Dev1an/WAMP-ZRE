@@ -14,7 +14,7 @@ jobs:
             mkdir -p /tmp/npm-install-directory
             cd /tmp/npm-install-directory
             npm install npm@5
-            rm -rf /usr/local/lib/node_modules
+            sudo rm -rf /usr/local/lib/node_modules
             mv node_modules /usr  /local/lib/
             cd $currentDirectory
       - restore_cache:
