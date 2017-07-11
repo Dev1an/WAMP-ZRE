@@ -32,8 +32,8 @@ jobs:
       - run:
           name: move test results
           command: |
-            mkdir -p $CIRCLE_TEST_REPORTS/junit
-            cp junit.xml $CIRCLE_TEST_REPORTS/junit/junit.xml
+            sudo mkdir -p $CIRCLE_TEST_REPORTS/junit
+            sudp cp junit.xml $CIRCLE_TEST_REPORTS/junit/junit.xml
       - store_artifacts:
           path: junit.xml
       - store_test_results:
