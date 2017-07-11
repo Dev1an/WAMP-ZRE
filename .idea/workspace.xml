@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62b236dc-65fa-4677-a950-654c887470c4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/index.test.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/damiaan.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/damiaan.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.js" afterPath="$PROJECT_DIR$/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.test.js" afterPath="$PROJECT_DIR$/index.test.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -31,8 +27,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="24" lean-forward="false" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+            <state relative-caret-position="420">
+              <caret line="28" column="10" lean-forward="false" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -41,8 +37,8 @@
       <file leaf-file-name="index.test.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+            <state relative-caret-position="249">
+              <caret line="31" column="50" lean-forward="true" selection-start-line="31" selection-start-column="50" selection-end-line="31" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -101,10 +97,10 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1828" />
-    <option name="y" value="-682" />
-    <option name="width" value="1417" />
-    <option name="height" value="953" />
+    <option name="x" value="2079" />
+    <option name="y" value="-742" />
+    <option name="width" value="1281" />
+    <option name="height" value="1123" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -165,7 +161,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="settings.editor.splitter.proportion" value="0.25531915" />
     <property name="js.eslint.eslintPackage" value="" />
@@ -184,7 +180,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Jest.bridges local WAMP realm to ZRE network">
+  <component name="RunManager" selected="Jest.Jest">
     <configuration default="false" name="bridges local WAMP realm to ZRE network" type="JavaScriptTestRunnerJest" factoryName="Jest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <working-dir value="$PROJECT_DIR$" />
@@ -294,41 +290,44 @@
       <updated>1499688063075</updated>
       <workItem from="1499688064231" duration="5884000" />
       <workItem from="1499699821800" duration="197000" />
-      <workItem from="1499700310674" duration="1142000" />
+      <workItem from="1499700310674" duration="10207000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="bridges_local_WAMP_realm_to_ZRE_network - 2017.07.10 at 17h 30m 01s.xml">
-      <configuration name="bridges local WAMP realm to ZRE network" configurationId="JavaScriptTestRunnerJest" />
+    <history-entry file="Jest - 2017.07.11 at 01h 04m 27s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
     </history-entry>
-    <history-entry file="bridges_local_WAMP_realm_to_ZRE_network - 2017.07.10 at 17h 34m 07s.xml">
-      <configuration name="bridges local WAMP realm to ZRE network" configurationId="JavaScriptTestRunnerJest" />
+    <history-entry file="Jest - 2017.07.11 at 01h 04m 36s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
     </history-entry>
-    <history-entry file="bridges_local_WAMP_realm_to_ZRE_network - 2017.07.10 at 17h 34m 24s.xml">
-      <configuration name="bridges local WAMP realm to ZRE network" configurationId="JavaScriptTestRunnerJest" />
+    <history-entry file="Jest - 2017.07.11 at 01h 05m 19s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
     </history-entry>
-    <history-entry file="bridges_local_WAMP_realm_to_ZRE_network - 2017.07.10 at 17h 35m 09s.xml">
-      <configuration name="bridges local WAMP realm to ZRE network" configurationId="JavaScriptTestRunnerJest" />
+    <history-entry file="Jest - 2017.07.11 at 01h 05m 58s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
     </history-entry>
-    <history-entry file="bridges_local_WAMP_realm_to_ZRE_network - 2017.07.10 at 17h 42m 07s.xml">
-      <configuration name="bridges local WAMP realm to ZRE network" configurationId="JavaScriptTestRunnerJest" />
+    <history-entry file="Jest - 2017.07.11 at 01h 22m 42s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
     </history-entry>
-    <history-entry file="bridges_local_WAMP_realm_to_ZRE_network - 2017.07.10 at 17h 43m 09s.xml">
-      <configuration name="bridges local WAMP realm to ZRE network" configurationId="JavaScriptTestRunnerJest" />
+    <history-entry file="Jest - 2017.07.11 at 01h 35m 47s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
     </history-entry>
-    <history-entry file="bridges_local_WAMP_realm_to_ZRE_network - 2017.07.10 at 17h 44m 19s.xml">
-      <configuration name="bridges local WAMP realm to ZRE network" configurationId="JavaScriptTestRunnerJest" />
+    <history-entry file="Jest - 2017.07.11 at 01h 37m 28s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
     </history-entry>
-    <history-entry file="bridges_local_WAMP_realm_to_ZRE_network - 2017.07.10 at 17h 45m 01s.xml">
-      <configuration name="bridges local WAMP realm to ZRE network" configurationId="JavaScriptTestRunnerJest" />
+    <history-entry file="Jest - 2017.07.11 at 01h 37m 48s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
     </history-entry>
-    <history-entry file="bridges_local_WAMP_realm_to_ZRE_network - 2017.07.10 at 17h 46m 41s.xml">
-      <configuration name="bridges local WAMP realm to ZRE network" configurationId="JavaScriptTestRunnerJest" />
+    <history-entry file="Jest - 2017.07.11 at 01h 42m 42s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
+    </history-entry>
+    <history-entry file="Jest - 2017.07.11 at 01h 45m 58s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7223000" />
+    <option name="totallyTimeSpent" value="16288000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -340,17 +339,18 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1828" y="-682" width="1417" height="953" extended-state="0" />
+    <frame x="2079" y="-742" width="1281" height="1123" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22421204" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2484127" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32971507" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28222996" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29485935" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -435,18 +435,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/autobahn/lib/connection.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="71" column="21" lean-forward="false" selection-start-line="71" selection-start-column="21" selection-end-line="71" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/zyre.js/lib/zyre_node.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="92" column="2" lean-forward="false" selection-start-line="92" selection-start-column="2" selection-end-line="92" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/zyre.js/lib/zyre.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="192" column="21" lean-forward="false" selection-start-line="192" selection-start-column="21" selection-end-line="192" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="24" lean-forward="false" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+        <state relative-caret-position="420">
+          <caret line="28" column="10" lean-forward="false" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        <state relative-caret-position="249">
+          <caret line="31" column="50" lean-forward="true" selection-start-line="31" selection-start-column="50" selection-end-line="31" selection-end-column="50" />
           <folding />
         </state>
       </provider>
