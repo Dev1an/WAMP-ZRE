@@ -3,16 +3,14 @@ jobs:
   build:
     working_directory: ~/wamp-zre
     docker:
-      - image: circleci/node:6.11
+      - image: circleci/node:6
       - image: crossbario/crossbar:latest
     steps:
       - checkout
       - run:
           name: update-npm
-          command: |
-            sudo rm -rf /usr/local/lib/node_modules
-            sudo rm -rf ~/.npm
-            sudo npm install -g npm@latest
+          commands:
+           - 'sudo npm install -g npm@latest'
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
