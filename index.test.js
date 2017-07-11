@@ -1,7 +1,7 @@
 /**
  * Created by damiaan on 10/07/17.
  */
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 18000
 
 const Bridge = require('./')
 const Zyre = require('zyre.js')

@@ -30,7 +30,7 @@ jobs:
           name: test
           command: npm test
       - run:
-          name: move test results
+          name: move-test-results
           command: |
             sudo mkdir -p $CIRCLE_TEST_REPORTS/junit
             sudp cp junit.xml $CIRCLE_TEST_REPORTS/junit/junit.xml
