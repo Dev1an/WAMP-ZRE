@@ -68,8 +68,4 @@ describe('Send WAMP messages to ZRE network', () => {
 			wampNode.session.call(`ZRE-Bridge.peer.${peerID}.whisper`, [testMessage])
 		}, 500)
 	})
-
-	test('wamp node still running', () => {
-		expect(wampNode.session.isOpen).toBe(true)
-	})
 })
