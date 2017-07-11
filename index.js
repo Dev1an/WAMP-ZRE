@@ -33,12 +33,12 @@ module.exports = class Bridge extends EventEmitter {
 		this.zreObserverNode.on('connect', (id, name, headers) => {
 			const wampReflection = new Autobahn.Connection(this.wampEndpoint)
 			wampReflection.onopen = session => {
-				session.register(`ZRE-Bridge.peer.${id}.whisper`, ([message], argumentObject, details) => {
+				session.register(Bridge.getWhisperURI(id), ([message], argumentObject, details) => {
 					return new Promise((resolve, reject) => {
 						if (details.caller === undefined) {
 							this.zreObserverNode.whisper(id, message)
 						} else {
-							reject('Sneding from zyre reflection not implemented')
+							reject('Sending from zyre reflection not implemented')
 						}
 					})
 				})
@@ -49,7 +49,7 @@ module.exports = class Bridge extends EventEmitter {
 	}
 
 	observeWampNetwork() {
-		this.wampObserverNode.session.subscribe('ZRE-Bridge.shout', ([group, message]) => {
+		this.wampObserverNode.session.subscribe(Bridge.getShoutURI(), ([group, message]) => {
 			this.zreObserverNode.shout(group, message)
 		})
 	}
@@ -71,5 +71,13 @@ module.exports = class Bridge extends EventEmitter {
 			}))
 		}
 		return Promise.all(reflectionsClosed)
+	}
+
+	static getShoutURI() {
+		return 'ZRE-Bridge.shout'
+	}
+
+	static getWhisperURI(peerID) {
+		return `ZRE-Bridge.peer.${peerID}.whisper`
 	}
 }

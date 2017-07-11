@@ -54,7 +54,7 @@ describe('Send WAMP messages to ZRE network', () => {
 			}
 		})
 
-		wampNode.session.publish(`ZRE-Bridge.shout`, [testGroup, testMessage])
+		wampNode.session.publish(Bridge.getShoutURI(), [testGroup, testMessage])
 	})
 
 	test('Whisper from WAMP to ZRE Node', done => {
@@ -65,8 +65,10 @@ describe('Send WAMP messages to ZRE network', () => {
 		})
 
 		const peerID = zreNode.getIdentity()
+
+		// Wait for the bridge to receive the ZRE ENTER message and to create a reflecion
 		setTimeout(() => {
-			wampNode.session.call(`ZRE-Bridge.peer.${peerID}.whisper`, [testMessage])
+			wampNode.session.call(Bridge.getWhisperURI(peerID), [testMessage])
 		}, 500)
 	})
 })
