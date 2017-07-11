@@ -33,16 +33,17 @@ module.exports = class Bridge extends EventEmitter {
 		this.zreObserverNode.on('connect', (id, name, headers) => {
 			const wampReflection = new Autobahn.Connection(this.wampEndpoint)
 			wampReflection.onopen = session => {
-				session.register(`ZRE-bridge.${id}.whisper`, (argumentArray, argumentObject, details) => {
+				session.register(`ZRE-Bridge.peer.${id}.whisper`, ([message], argumentObject, details) => {
 					return new Promise((resolve, reject) => {
 						if (details.caller === undefined) {
-							this.zreObserverNode.whisper(id, JSON.stringify(argumentArray))
+							this.zreObserverNode.whisper(id, message)
 						} else {
 							reject('Sneding from zyre reflection not implemented')
 						}
 					})
 				})
 			}
+			wampReflection.open()
 			this.wampReflectionsOfZreNodes.set(id, wampReflection)
 		})
 	}
@@ -56,8 +57,19 @@ module.exports = class Bridge extends EventEmitter {
 	destroy() {
 		this.wampObserverNode.close()
 		this.zreObserverNode.stop()
+		const reflectionsClosed = []
 		for (let node of this.wampReflectionsOfZreNodes.values()) {
-			node.close()
+			reflectionsClosed.push(new Promise(function (resolve) {
+				node.onclose = function() {
+					resolve()
+				}
+
+				// Not sure why this timeout is needed
+				// but autobahn shows the following warning when no timeout is used:
+				//  > failing transport due to protocol violation: unexpected message type 8
+				setTimeout(()=>node.close(), 20)
+			}))
 		}
+		return Promise.all(reflectionsClosed)
 	}
 }

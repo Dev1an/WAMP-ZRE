@@ -11,14 +11,9 @@ const wampEndpoint = {
 	realm: 'realm1'
 }
 const bridge = new Bridge({WAMP: {endpoint: wampEndpoint} })
-const cleaners = []
 
 afterAll(() => {
-	for (let clean of cleaners) {
-		clean()
-	}
-	console.log('destroying the bridge')
-	bridge.destroy()
+	return bridge.destroy()
 })
 
 test('Bridge connects to both networks', done => {
@@ -26,13 +21,31 @@ test('Bridge connects to both networks', done => {
 })
 
 describe('Send WAMP messages to ZRE network', () => {
-	beforeAll(() => bridge.onReady)
+	const zreNode = Zyre.new()
+	const wampNode = new Autobahn.Connection(wampEndpoint)
+
+	beforeAll(() => {
+		return new Promise(resolve => {
+			bridge.onReady.then(() => {
+				const zreNodeReady  = zreNode.start()
+				const wampNodeReady = new Promise(wampNetworkOpen => {
+					wampNode.onopen = session => wampNetworkOpen()
+					wampNode.open()
+				})
+				Promise.all([zreNodeReady, wampNodeReady]).then(() => resolve())
+			})
+		})
+	})
+	afterAll(() => {
+		wampNode.close()
+		zreNode.stop()
+	})
 
 	test('Shout from WAMP to ZRE node', done => {
 		const testGroup = 'org.devian.shout-test.&@/=+°';
 		const testMessage = 'My special shout test message'
 
-		const zreNode = Zyre.new()
+		zreNode.join(testGroup)
 		zreNode.on('shout', (id, name, message, group) => {
 			if (group == testGroup) {
 				expect(message).toEqual(testMessage)
@@ -40,17 +53,23 @@ describe('Send WAMP messages to ZRE network', () => {
 			}
 		})
 
-		const wampNode = new Autobahn.Connection(wampEndpoint)
-		wampNode.onopen = function(session) {
-			session.publish(`ZRE-Bridge.shout`, [testGroup, testMessage])
-		}
+		wampNode.session.publish(`ZRE-Bridge.shout`, [testGroup, testMessage])
+	})
 
-		zreNode.start().then(() => {
-			zreNode.join(testGroup)
-			wampNode.open()
+	test('Whisper from WAMP to ZRE Node', done => {
+		const testMessage = 'My special whisper message'
+		zreNode.on('whisper', (id, name, message) => {
+			expect(message).toEqual(testMessage)
+			done()
 		})
 
-		cleaners.push(() => zreNode.stop())
-		cleaners.push(() => wampNode.close())
+		const peerID = zreNode.getIdentity()
+		setTimeout(() => {
+			wampNode.session.call(`ZRE-Bridge.peer.${peerID}.whisper`, [testMessage])
+		}, 500)
+	})
+
+	test('wamp node still running', () => {
+		expect(wampNode.session.isOpen).toBe(true)
 	})
 })
