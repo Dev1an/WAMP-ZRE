@@ -3,13 +3,20 @@ jobs:
   build:
     working_directory: ~/wamp-zre
     docker:
-      - image: circleci/node:6.10
+      - image: circleci/node:6
       - image: crossbario/crossbar:latest
     steps:
       - checkout
       - run:
           name: update-npm
-          command: 'sudo npm install -g npm@latest'
+          command: |
+            currentDirectory=$(pwd)
+            mkdir -p /tmp/npm-install-directory
+            cd /tmp/npm-install-directory
+            npm install npm@5
+            sudo rm -rf /usr/local/lib/node_modules
+            sudo mv node_modules /usr/local/lib/
+            cd $currentDirectory
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
@@ -22,13 +29,5 @@ jobs:
       - run:
           name: test
           command: npm test
-#      - run:
-#          name: code-coverage
-#          command: './node_modules/.bin/nyc report --reporter=text-lcov'
       - store_artifacts:
           path: junit.xml
-#      - store_artifacts:
-#          path: coverage
-#          prefix: coverage
-      - store_test_results:
-          path: test-results.xml
