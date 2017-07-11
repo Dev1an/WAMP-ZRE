@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/wamp-zre
     docker:
-      - image: circleci/node:6.10
+      - image: circleci/node:8
       - image: crossbario/crossbar:latest
     steps:
       - checkout
