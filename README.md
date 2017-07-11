@@ -1,7 +1,9 @@
 [![CircleCI](https://circleci.com/gh/Dev1an/WAMP-ZRE.svg?style=svg)](https://circleci.com/gh/Dev1an/WAMP-ZRE)
 
 # Usage
-`npm install Dev1an/WAMP-ZRE`
+```bash
+npm install Dev1an/WAMP-ZRE
+```
 
 ```js
 const Bridge = require('wamp-zre')
