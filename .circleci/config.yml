@@ -31,7 +31,9 @@ jobs:
           command: npm test
       - run:
           name: move test results
-          command: cp junit.xml $CIRCLE_TEST_REPORTS/junit/junit.xml
+          command: |
+            mkdir -p $CIRCLE_TEST_REPORTS/junit
+            cp junit.xml $CIRCLE_TEST_REPORTS/junit/junit.xml
       - store_artifacts:
           path: junit.xml
 #      - store_artifacts:
