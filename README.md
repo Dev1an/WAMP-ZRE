@@ -63,3 +63,10 @@ wampNode.onopen = session => {
 }
 wampNode.open()
 ```
+# Development
+
+Information for developers of the bridge module.
+
+## Testing
+
+When testing the module locally make sure you have a WAMP router running on port 8080.
