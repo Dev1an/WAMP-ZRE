@@ -37,11 +37,14 @@ module.exports = class Bridge extends EventEmitter {
 					return new Promise((resolve, reject) => {
 						if (details.caller === undefined) {
 							this.zreObserverNode.whisper(id, message)
+							resolve()
 						} else {
 							reject('Sending from zyre reflection not implemented')
 						}
 					})
 				})
+
+				session.register(Bridge.getZrePeerIdURI(session.id), () => [id])
 			}
 			wampReflection.open()
 			this.wampReflectionsOfZreNodes.set(id, wampReflection)
@@ -79,5 +82,9 @@ module.exports = class Bridge extends EventEmitter {
 
 	static getWhisperURI(peerID) {
 		return `ZRE-Bridge.peer.${peerID}.whisper`
+	}
+
+	static getZrePeerIdURI(sessionID) {
+		return `ZRE-Bridge.wamp-session.${sessionID}.get-zre-peer-id`
 	}
 }

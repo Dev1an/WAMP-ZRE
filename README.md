@@ -22,6 +22,17 @@ new Bridge({
 })
 ```
 
+## Discovery of ZRE peers via WAMP
+
+For each ZRE peer that enters the network, the bridge creates a corresponding WAMP client. These wamp clients are referred to as "WAMP reflections" of the ZRE peers. Each WAMP reflection registers two procedures:
+
+- `ZRE-Bridge.peer.<peerID>.whisper` used to whisper to ZRE (further discussed in [whisper](#Whisper))
+  - `<peerID>` the ID of the ZRE peer.
+- `ZRE-Bridge.wamp-session.<sessionID>.get-zre-peer-id` returns a singleton array containing the ID of the ZRE peer that this session reflects. 
+  - `sessionID` the ID of the WAMP session.
+
+To discover ZRE peers use the standard wamp [Registration meta](https://github.com/wamp-proto/wamp-proto/blob/master/rfc/text/advanced/ap_rpc_registration_meta_api.md) and [Session meta](https://github.com/wamp-proto/wamp-proto/blob/master/rfc/text/advanced/ap_session_meta_api.md) API's.
+
 ## Talk to ZRE peers via WAMP
 
 ### Shout
@@ -59,10 +70,18 @@ const wampNode = new Autobahn.Connection({
 	realm: 'realm1'
 })
 wampNode.onopen = session => {
-  session.call('ZRE-Bridge.peer.12356789abcdef.whisper', ['hello zre node'])
+  session.call('ZRE-Bridge.peer.12356789abcdef.whisper', ['hello zre peer'])
 }
 wampNode.open()
 ```
+## Discover WAMP clients via ZRE 
+
+Todo
+
+## Talk to WAMP clients via ZRE
+
+Todo
+
 # Development
 
 Information for developers of the bridge module.
