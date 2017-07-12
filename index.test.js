@@ -22,7 +22,7 @@ test('Bridge connects to both networks', done => {
 })
 
 describe('Send WAMP messages to ZRE network', () => {
-	const zreNode = Zyre.new()
+	const zreNode = Zyre.new({name: 'node 1'})
 	const wampNode = new Autobahn.Connection(wampEndpoint)
 
 	beforeAll(() => {
@@ -55,6 +55,44 @@ describe('Send WAMP messages to ZRE network', () => {
 		})
 
 		wampNode.session.publish(Bridge.getShoutURI(), [testGroup, testMessage])
+	})
+
+	test('Shout from WAMP to multiple ZRE nodes', done => {
+		const testGroup = 'org.devian.shout-test.2';
+		const testMessage = 'My special broadcast message'
+
+		const firstNodeReceived = new Promise(resolve => {
+			zreNode.join(testGroup)
+			zreNode.on('shout', (id, name, message, group) => {
+				if (group == testGroup) {
+					expect(message).toEqual(testMessage)
+					resolve()
+				}
+			})
+		})
+
+		const zreNode2 = Zyre.new({name: 'node 2'})
+		const secondNodeReceived = new Promise(resolve => {
+			const timeout = setTimeout(() => zreNode2.stop(), jasmine.DEFAULT_TIMEOUT_INTERVAL)
+			zreNode2.start(() => {
+				setTimeout(() => zreNode2.join(testGroup), 10)
+				zreNode2.on('shout', (id, name, message, group) => {
+					if (group == testGroup) {
+						expect(message).toEqual(testMessage)
+						clearTimeout(timeout)
+						zreNode2.stop()
+						resolve()
+					}
+				})
+			})
+		})
+
+		zreNode.on('join', (id, name, group) => {
+			if (id == zreNode2.getIdentity() && group == testGroup) {
+				wampNode.session.publish(Bridge.getShoutURI(), [testGroup, testMessage])
+			}
+		})
+		Promise.all([firstNodeReceived, secondNodeReceived]).then(() => done())
 	})
 
 	test('Whisper from WAMP to ZRE Node', done => {
