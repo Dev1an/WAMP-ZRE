@@ -49,6 +49,13 @@ module.exports = class Bridge extends EventEmitter {
 			wampReflection.open()
 			this.wampReflectionsOfZreNodes.set(id, wampReflection)
 		})
+
+		this.zreObserverNode.on('disconnect', id => {
+			const reflection = this.wampReflectionsOfZreNodes.get(id)
+			if (reflection !== undefined) {
+				reflection.close()
+			}
+		})
 	}
 
 	observeWampNetwork() {

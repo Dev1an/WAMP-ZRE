@@ -22,6 +22,62 @@ test('Bridge connects to both networks', done => {
 	bridge.onReady.then(() => done())
 })
 
+describe('WAMP reflection lifecycle', () => {
+	const wampClient = new Autobahn.Connection(wampEndpoint)
+	const metaManager = new EventEmitter()
+	beforeAll(() => {
+		const subscriptionsReady = new Promise(resolve => {
+			wampClient.onopen = session => resolve(session)
+		}).then(session => Promise.all([
+			session.subscribe('wamp.session.on_join' , ([details]) => metaManager.emit( 'join', details)),
+			session.subscribe('wamp.session.on_leave', ([details]) => metaManager.emit('leave', details))
+		]))
+		wampClient.open()
+
+		return subscriptionsReady
+	})
+	afterAll(() => new Promise(resolve => {
+		console.log('closing')
+		wampClient.onclose = () => resolve()
+		wampClient.close()
+	}))
+	afterEach(() => metaManager.removeAllListeners())
+
+	test('Reflection is created after a ZRE node enters', done => {
+		const zreNode = new OneTestZyre()
+		metaManager.on('join', details => {
+			const zreNodeID = zreNode.getIdentity()
+			wampClient.session.call(Bridge.getZrePeerIdURI(details.session)).then(([peerID]) => {
+				if (peerID === zreNodeID) {
+					zreNode.stop()
+					done()
+				}
+			})
+		})
+		zreNode.start()
+	})
+
+	test('Reflection is closed after ZRE node leaves', done => {
+		const zreNode = new OneTestZyre()
+		let sessionID
+		metaManager.on('join', details => {
+			const zreNodeID = zreNode.getIdentity()
+			wampClient.session.call(Bridge.getZrePeerIdURI(details.session)).then(([peerID]) => {
+				if (peerID === zreNodeID) {
+					sessionID = details.session
+					zreNode.stop()
+				}
+			})
+		})
+		metaManager.on('leave', leavingSession => {
+			if (leavingSession === sessionID) {
+				done()
+			}
+		})
+		zreNode.start()
+	})
+})
+
 describe('Send WAMP messages to ZRE network', () => {
 	const zreNode = Zyre.new({name: 'node 1'})
 	const wampNode = new Autobahn.Connection(wampEndpoint)
@@ -113,41 +169,6 @@ describe('Send WAMP messages to ZRE network', () => {
 		const peerID = zreNode.getIdentity()
 
 		wampNode.session.call(Bridge.getWhisperURI(peerID), [testMessage])
-	})
-})
-
-describe('WAMP reflection lifecycle', () => {
-	const wampClient = new Autobahn.Connection(wampEndpoint)
-	const metaManager = new EventEmitter()
-	beforeAll(() => {
-		const subscriptionsReady = new Promise(resolve => {
-			wampClient.onopen = session => resolve(session)
-		}).then(session => Promise.all([
-			session.subscribe('wamp.session.on_join' , ([details]) => metaManager.emit( 'join', details)),
-			session.subscribe('wamp.session.on_leave', ([details]) => metaManager.emit('leave', details))
-		]))
-		wampClient.open()
-
-		return subscriptionsReady
-	})
-	afterAll(() => new Promise(resolve => {
-		wampClient.onclose = () => resolve()
-		wampClient.close()
-	}))
-	afterEach(() => metaManager.removeAllListeners())
-
-	test('Reflection is generated after a ZRE node enters', done => {
-		const zreNode = new OneTestZyre()
-		metaManager.on('join', details => {
-			const zreNodeID = zreNode.getIdentity()
-			wampClient.session.call(Bridge.getZrePeerIdURI(details.session)).then(([peerID]) => {
-				if (peerID === zreNodeID) {
-					zreNode.stop()
-					done()
-				}
-			})
-		})
-		zreNode.start()
 	})
 })
 
