@@ -37,7 +37,6 @@ describe('WAMP reflection lifecycle', () => {
 		return subscriptionsReady
 	})
 	afterAll(() => new Promise(resolve => {
-		console.log('closing')
 		wampClient.onclose = () => resolve()
 		wampClient.close()
 	}))

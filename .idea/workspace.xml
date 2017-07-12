@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62b236dc-65fa-4677-a950-654c887470c4" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.js" afterPath="$PROJECT_DIR$/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.test.js" afterPath="$PROJECT_DIR$/index.test.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -23,26 +24,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="455">
-              <caret line="56" column="13" lean-forward="true" selection-start-line="56" selection-start-column="13" selection-end-line="56" selection-end-column="13" />
+            <state relative-caret-position="1133">
+              <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.test.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.test.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="59" column="8" lean-forward="false" selection-start-line="59" selection-start-column="8" selection-end-line="59" selection-end-column="8" />
+            <state relative-caret-position="612">
+              <caret line="39" column="14" lean-forward="false" selection-start-line="39" selection-start-column="14" selection-end-line="39" selection-end-column="14" />
               <folding>
                 <element signature="e#244#296#0" expanded="false" />
                 <element signature="e#374#402#0" expanded="false" />
-                <element signature="e#2180#4843#0" expanded="false" />
-                <marker date="1499868844000" expanded="false" signature="4877:5091" ph="{...}" />
+                <element signature="e#2155#4818#0" expanded="false" />
+                <marker date="1499869000000" expanded="false" signature="4852:5066" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -51,8 +52,8 @@
       <file leaf-file-name="zyre.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/node_modules/zyre.js/lib/zyre.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="307" column="14" lean-forward="false" selection-start-line="307" selection-start-column="10" selection-end-line="307" selection-end-column="14" />
+            <state relative-caret-position="404">
+              <caret line="376" column="86" lean-forward="false" selection-start-line="376" selection-start-column="86" selection-end-line="376" selection-end-column="86" />
               <folding />
             </state>
           </provider>
@@ -64,7 +65,7 @@
             <state relative-caret-position="-8">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <marker date="1499868800000" expanded="true" signature="1273:1289" ph="..." />
+                <marker date="1499869073000" expanded="true" signature="1258:1274" ph="..." />
               </folding>
             </state>
           </provider>
@@ -131,8 +132,9 @@
         <option value="net.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/.circleci/config.yml" />
-        <option value="$PROJECT_DIR$/index.js" />
         <option value="$PROJECT_DIR$/index.test.js" />
+        <option value="$PROJECT_DIR$/node_modules/zyre.js/lib/zyre.js" />
+        <option value="$PROJECT_DIR$/index.js" />
       </list>
     </option>
   </component>
@@ -209,6 +211,60 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="WAMP-ZRE" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WAMP-ZRE" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WAMP-ZRE" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="node_modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zyre.js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WAMP-ZRE" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WAMP-ZRE" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="node_modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zyre.js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WAMP-ZRE" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WAMP-ZRE" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="node_modules" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -368,15 +424,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Jest - 2017.07.11 at 15h 01m 45s.xml">
-      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
-    </history-entry>
-    <history-entry file="Jest - 2017.07.11 at 15h 02m 30s.xml">
-      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
-    </history-entry>
-    <history-entry file="Jest - 2017.07.11 at 15h 03m 01s.xml">
-      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
-    </history-entry>
     <history-entry file="Jest - 2017.07.11 at 15h 06m 51s.xml">
       <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
     </history-entry>
@@ -398,9 +445,18 @@
     <history-entry file="Jest - 2017.07.12 at 16h 13m 20s.xml">
       <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
     </history-entry>
+    <history-entry file="Jest - 2017.07.12 at 16h 14m 24s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
+    </history-entry>
+    <history-entry file="Jest - 2017.07.12 at 16h 17m 01s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
+    </history-entry>
+    <history-entry file="Jest - 2017.07.12 at 16h 17m 53s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36125000" />
+    <option name="totallyTimeSpent" value="36357000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -413,6 +469,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16482359" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32971507" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -529,8 +586,8 @@
           <folding>
             <element signature="e#244#296#0" expanded="false" />
             <element signature="e#374#402#0" expanded="false" />
-            <element signature="e#2180#4843#0" expanded="false" />
-            <marker date="1499868844000" expanded="false" signature="4877:5091" ph="{...}" />
+            <element signature="e#2155#4818#0" expanded="false" />
+            <marker date="1499869000000" expanded="false" signature="4852:5066" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -563,8 +620,8 @@
           <folding>
             <element signature="e#244#296#0" expanded="false" />
             <element signature="e#374#402#0" expanded="false" />
-            <element signature="e#2180#4843#0" expanded="false" />
-            <marker date="1499868844000" expanded="false" signature="4877:5091" ph="{...}" />
+            <element signature="e#2155#4818#0" expanded="false" />
+            <marker date="1499869000000" expanded="false" signature="4852:5066" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -584,8 +641,8 @@
           <folding>
             <element signature="e#244#296#0" expanded="false" />
             <element signature="e#374#402#0" expanded="false" />
-            <element signature="e#2180#4843#0" expanded="false" />
-            <marker date="1499868844000" expanded="false" signature="4877:5091" ph="{...}" />
+            <element signature="e#2155#4818#0" expanded="false" />
+            <marker date="1499869000000" expanded="false" signature="4852:5066" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -718,8 +775,8 @@
           <folding>
             <element signature="e#244#296#0" expanded="false" />
             <element signature="e#374#402#0" expanded="false" />
-            <element signature="e#2180#4843#0" expanded="false" />
-            <marker date="1499868844000" expanded="false" signature="4877:5091" ph="{...}" />
+            <element signature="e#2155#4818#0" expanded="false" />
+            <marker date="1499869000000" expanded="false" signature="4852:5066" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -752,8 +809,8 @@
           <folding>
             <element signature="e#244#296#0" expanded="false" />
             <element signature="e#374#402#0" expanded="false" />
-            <element signature="e#2180#4843#0" expanded="false" />
-            <marker date="1499868844000" expanded="false" signature="4877:5091" ph="{...}" />
+            <element signature="e#2155#4818#0" expanded="false" />
+            <marker date="1499869000000" expanded="false" signature="4852:5066" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -773,8 +830,8 @@
           <folding>
             <element signature="e#244#296#0" expanded="false" />
             <element signature="e#374#402#0" expanded="false" />
-            <element signature="e#2180#4843#0" expanded="false" />
-            <marker date="1499868844000" expanded="false" signature="4877:5091" ph="{...}" />
+            <element signature="e#2155#4818#0" expanded="false" />
+            <marker date="1499869000000" expanded="false" signature="4852:5066" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -841,14 +898,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/zyre.js/lib/zyre.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="307" column="14" lean-forward="false" selection-start-line="307" selection-start-column="10" selection-end-line="307" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/zyre.js/lib/zre_msg.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-719">
@@ -891,24 +940,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/zyre.js/lib/zyre.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="56" column="13" lean-forward="true" selection-start-line="56" selection-start-column="13" selection-end-line="56" selection-end-column="13" />
+        <state relative-caret-position="404">
+          <caret line="376" column="86" lean-forward="false" selection-start-line="376" selection-start-column="86" selection-end-line="376" selection-end-column="86" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="59" column="8" lean-forward="false" selection-start-line="59" selection-start-column="8" selection-end-line="59" selection-end-column="8" />
+        <state relative-caret-position="612">
+          <caret line="39" column="14" lean-forward="false" selection-start-line="39" selection-start-column="14" selection-end-line="39" selection-end-column="14" />
           <folding>
             <element signature="e#244#296#0" expanded="false" />
             <element signature="e#374#402#0" expanded="false" />
-            <element signature="e#2180#4843#0" expanded="false" />
-            <marker date="1499868844000" expanded="false" signature="4877:5091" ph="{...}" />
+            <element signature="e#2155#4818#0" expanded="false" />
+            <marker date="1499869000000" expanded="false" signature="4852:5066" ph="{...}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1133">
+          <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

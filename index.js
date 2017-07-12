@@ -54,6 +54,7 @@ module.exports = class Bridge extends EventEmitter {
 			const reflection = this.wampReflectionsOfZreNodes.get(id)
 			if (reflection !== undefined) {
 				reflection.close()
+				this.wampReflectionsOfZreNodes.delete(id)
 			}
 		})
 	}
