@@ -25,18 +25,26 @@ describe('Send WAMP messages to ZRE network', () => {
 	const zreNode = Zyre.new({name: 'node 1'})
 	const wampNode = new Autobahn.Connection(wampEndpoint)
 
-	beforeAll(() => {
-		return new Promise(resolve => {
-			bridge.onReady.then(() => {
-				const zreNodeReady  = zreNode.start()
-				const wampNodeReady = new Promise(wampNetworkOpen => {
-					wampNode.onopen = session => wampNetworkOpen()
-					wampNode.open()
+	beforeAll(() => new Promise(resolve => {
+		bridge.onReady.then(() => {
+			const wampNodeReady = new Promise(resolve => {
+				wampNode.onopen = session => resolve(session)
+				wampNode.open()
+			}).then(session => {
+				return new Promise(resolve => {
+					const subscription = session.subscribe('wamp.registration.on_create', ([session, registration]) => {
+						console.log(registration)
+						if (registration.uri === Bridge.getWhisperURI(zreNode.getIdentity())) {
+							resolve()
+							session.unsubscribe(subscription)
+						}
+					})
 				})
-				Promise.all([zreNodeReady, wampNodeReady]).then(() => resolve())
 			})
+			const zreNodeReady  = zreNode.start()
+			Promise.all([zreNodeReady, wampNodeReady]).then(() => resolve())
 		})
-	})
+	}))
 	afterAll(() => {
 		wampNode.close()
 		zreNode.stop()
@@ -104,9 +112,6 @@ describe('Send WAMP messages to ZRE network', () => {
 
 		const peerID = zreNode.getIdentity()
 
-		// Wait for the bridge to receive the ZRE ENTER message and to create a reflecion
-		setTimeout(() => {
-			wampNode.session.call(Bridge.getWhisperURI(peerID), [testMessage])
-		}, 500)
+		wampNode.session.call(Bridge.getWhisperURI(peerID), [testMessage])
 	})
 })
