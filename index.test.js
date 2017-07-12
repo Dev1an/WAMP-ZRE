@@ -33,7 +33,6 @@ describe('Send WAMP messages to ZRE network', () => {
 			}).then(session => {
 				return new Promise(resolve => {
 					const subscription = session.subscribe('wamp.registration.on_create', ([session, registration]) => {
-						console.log(registration)
 						if (registration.uri === Bridge.getWhisperURI(zreNode.getIdentity())) {
 							resolve()
 							session.unsubscribe(subscription)
@@ -83,7 +82,7 @@ describe('Send WAMP messages to ZRE network', () => {
 		const secondNodeReceived = new Promise(resolve => {
 			const timeout = setTimeout(() => zreNode2.stop(), jasmine.DEFAULT_TIMEOUT_INTERVAL)
 			zreNode2.start(() => {
-				setTimeout(() => zreNode2.join(testGroup), 10)
+				zreNode2.join(testGroup)
 				zreNode2.on('shout', (id, name, message, group) => {
 					if (group == testGroup) {
 						expect(message).toEqual(testMessage)
