@@ -3,6 +3,7 @@
  */
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 18000
 
+const EventEmitter = require('events')
 const Bridge = require('./')
 const Zyre = require('zyre.js')
 const Autobahn = require('autobahn')
@@ -114,3 +115,53 @@ describe('Send WAMP messages to ZRE network', () => {
 		wampNode.session.call(Bridge.getWhisperURI(peerID), [testMessage])
 	})
 })
+
+describe('WAMP reflection lifecycle', () => {
+	const wampClient = new Autobahn.Connection(wampEndpoint)
+	const metaManager = new EventEmitter()
+	beforeAll(() => {
+		const subscriptionsReady = new Promise(resolve => {
+			wampClient.onopen = session => resolve(session)
+		}).then(session => Promise.all([
+			session.subscribe('wamp.session.on_join' , ([details]) => metaManager.emit( 'join', details)),
+			session.subscribe('wamp.session.on_leave', ([details]) => metaManager.emit('leave', details))
+		]))
+		wampClient.open()
+
+		return subscriptionsReady
+	})
+	afterAll(() => new Promise(resolve => {
+		wampClient.onclose = () => resolve()
+		wampClient.close()
+	}))
+	afterEach(() => metaManager.removeAllListeners())
+
+	test('Reflection is generated after a ZRE node enters', done => {
+		const zreNode = new OneTestZyre()
+		metaManager.on('join', details => {
+			const zreNodeID = zreNode.getIdentity()
+			wampClient.session.call(Bridge.getZrePeerIdURI(details.session)).then(([peerID]) => {
+				if (peerID === zreNodeID) {
+					zreNode.stop()
+					done()
+				}
+			})
+		})
+		zreNode.start()
+	})
+})
+
+class OneTestZyre extends Zyre {
+	constructor(options) {
+		super(options)
+
+		this._testTimeout = setTimeout(() => {
+			super.stop()
+		}, jasmine.DEFAULT_TIMEOUT_INTERVAL)
+	}
+
+	stop() {
+		clearTimeout(this._testTimeout)
+		return super.stop()
+	}
+}
