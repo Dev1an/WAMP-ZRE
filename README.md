@@ -92,7 +92,15 @@ For each WAMP client that opens a session, the bridge creates a corresponding ZR
 
 ### Call remote procedure
 
+Todo
 
+### Subscribe to topic
+
+Todo
+
+### Publish message to topic
+
+Todo
 
 # Development
 

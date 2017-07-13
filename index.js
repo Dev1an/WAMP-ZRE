@@ -1,6 +1,7 @@
 const EventEmitter = require('events')
 const Zyre = require('zyre.js')
 const Autobahn = require('autobahn')
+const msgpack = require("msgpack-lite");
 
 module.exports = class Bridge extends EventEmitter {
 	constructor({WAMP: {endpoint: wampEndpoint}, ZRE: {reflectionGroups = ['WAMP-Bridge reflections']}}) {
@@ -8,7 +9,7 @@ module.exports = class Bridge extends EventEmitter {
 		this.wampEndpoint = wampEndpoint // format {url: String, realm: String}
 		this.zreReflectionGroups = reflectionGroups
 
-		this.zreObserverNode = Zyre.new({name: 'WAMP Bridge'})
+		this.zreObserverNode = Zyre.new({name: 'WAMP Bridge', headers: {[Bridge.getVersionHeaderKey()]: Bridge.getVersion()}})
 		this.wampObserverNode = new Autobahn.Connection(this.wampEndpoint)
 
 		/**
@@ -35,6 +36,19 @@ module.exports = class Bridge extends EventEmitter {
 	}
 
 	observeZreNetwork() {
+		this.zreObserverNode.setEncoding(null)
+		this.zreObserverNode.on('whisper', (id, name, buffer) => {
+			const {uri, payload} = msgpack.decode(buffer)
+			let args, kwArgs
+			if (payload instanceof Array) {
+				args = payload
+			} else {
+				args = []
+				kwArgs = payload
+			}
+			this.wampObserverNode.session.call(uri, args, kwArgs)
+		})
+
 		this.zreObserverNode.on('connect', (id, name, headers) => {
 			if (this.zreObserverNode.getIdentity() === id) return
 			// If this is a ZRE reflection of a WAMP node then return
@@ -153,5 +167,13 @@ module.exports = class Bridge extends EventEmitter {
 
 	static getWAMPsessionIdHeaderKey() {
 		return `WAMP-sesion-id`
+	}
+
+	static getVersion() {
+		return '1.0.0'
+	}
+
+	static getVersionHeaderKey() {
+		return 'WAMP-bridge-version'
 	}
 }

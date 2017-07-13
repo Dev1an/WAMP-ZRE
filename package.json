@@ -27,6 +27,7 @@
   "homepage": "https://github.com/Dev1an/WAMP-ZRE#readme",
   "dependencies": {
     "autobahn": "^17.5.2",
+    "msgpack-lite": "^0.1.26",
     "zyre.js": "github:interpretor/zyre.js#d24dce79a0c2494a20ac0689144f99bb17fae17a"
   },
   "devDependencies": {
