@@ -210,6 +210,9 @@ describe('Communication', () => {
 			test('passes an array as argument', done => {
 				const testURI = 'WAMP-Bridge.test.procedure.1'
 				const testArguments = ['Hello', 'world']
+
+				expect.assertions(1)
+
 				wampNode.session.register(testURI, receivedArguments => {
 					expect(receivedArguments).toEqual(testArguments)
 					done()
@@ -226,6 +229,9 @@ describe('Communication', () => {
 			test('passes a dictionary as argument', done => {
 				const testURI = 'WAMP-Bridge.test.procedure.2'
 				const testArgument = {Hello: 'world'}
+
+				expect.assertions(1)
+
 				wampNode.session.register(testURI, (_,receivedArgument) => {
 					expect(receivedArgument).toEqual(testArgument)
 					done()
@@ -244,9 +250,13 @@ describe('Communication', () => {
 				const testResult = "Correct result"
 				const testID = 683
 
+				expect.assertions(4)
+
 				wampNode.session.register(testURI, () => testResult).then(() => {
 					zreNode.setEncoding(null)
 					zreNode.on('whisper', (senderID, name, buffer) => {
+						console.log('test node received')
+						console.log(msgpack.decode(buffer))
 						const {type, result, id} = msgpack.decode(buffer)
 						expect(senderID).toEqual(bridge.zreObserverNode.getIdentity())
 						expect(type).toEqual('WAMP RPC result')
