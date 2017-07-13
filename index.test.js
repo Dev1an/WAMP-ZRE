@@ -7,7 +7,6 @@ const EventEmitter = require('events')
 const Bridge = require('./')
 const Zyre = require('zyre.js')
 const Autobahn = require('autobahn')
-const testHelpers = require('./lib/test-helpers')
 
 const wampEndpoint = {
 	url: 'ws://localhost:8080/ws',
@@ -34,7 +33,7 @@ describe('Reflection lifecycle', () => {
 			const subscriptionsReady = new Promise(resolve => {
 				wampClient.onopen = session => resolve(session)
 			}).then(session => Promise.all([
-				session.subscribe('wamp.session.on_join' , ([details]) => metaManager.emit( 'join', details)),
+				session.subscribe('wamp.registration.on_create', ([session, registration]) => metaManager.emit('register', {session, registration})),
 				session.subscribe('wamp.session.on_leave', ([details]) => metaManager.emit('leave', details))
 			]))
 			wampClient.open()
@@ -49,14 +48,11 @@ describe('Reflection lifecycle', () => {
 
 		test('Reflection is created after a ZRE node enters', done => {
 			const zreNode = new OneTestZyre()
-			metaManager.on('join', details => {
-				const zreNodeID = zreNode.getIdentity()
-				wampClient.session.call(Bridge.getZrePeerIdURI(details.session)).then(([peerID]) => {
-					if (peerID === zreNodeID) {
-						zreNode.stop()
-						done()
-					}
-				})
+			metaManager.on('register', ({session, registration: {uri}}) => {
+				if (uri == Bridge.getWhisperURI(zreNode.getIdentity())) {
+					zreNode.stop()
+					done()
+				}
 			})
 			zreNode.start()
 		})
@@ -64,14 +60,11 @@ describe('Reflection lifecycle', () => {
 		test('Reflection is closed after ZRE node leaves', done => {
 			const zreNode = new OneTestZyre()
 			let sessionID
-			metaManager.on('join', details => {
-				const zreNodeID = zreNode.getIdentity()
-				wampClient.session.call(Bridge.getZrePeerIdURI(details.session)).then(([peerID]) => {
-					if (peerID === zreNodeID) {
-						sessionID = details.session
-						zreNode.stop()
-					}
-				})
+			metaManager.on('register', ({session, registration: {uri}}) => {
+				if (uri == Bridge.getWhisperURI(zreNode.getIdentity())) {
+					sessionID = session
+					zreNode.stop()
+				}
 			})
 			metaManager.on('leave', leavingSession => {
 				if (leavingSession === sessionID) {
@@ -85,8 +78,6 @@ describe('Reflection lifecycle', () => {
 	describe('ZRE reflection lifecycle', () => {
 		const zreObserver = new Zyre({name: 'observer for ZRE reflection lifecycle test'})
 		beforeAll(() => zreObserver.start())
-		afterAll(()  => zreObserver.stop())
-		afterEach(() => zreObserver.removeAllListeners())
 
 		test('Reflection is created for each wamp session', done => {
 			const wampConnection = new OneTestAutobahnConnection(wampEndpoint);
@@ -117,15 +108,29 @@ describe('Reflection lifecycle', () => {
 
 			wampConnection.open()
 		})
+
+		afterEach(() => {
+			if (zreObserver == undefined) console.log('zre observer is undefined')
+			zreObserver.removeAllListeners()
+		})
+
+		afterAll(() => {
+			return zreObserver.stop().catch(error => console.log('already stopped'))
+		})
 	})
 })
 
 describe('Communication', () => {
 	const zreNode = Zyre.new({name: 'node 1'})
 	const wampNode = new Autobahn.Connection(wampEndpoint)
-	const promiseZreAndWamp = testHelpers.promiseZreAndWamp({wampNode, zreNode})
-	beforeAll(promiseZreAndWamp.start)
-	afterAll(promiseZreAndWamp.stop)
+	beforeAll(() => {
+		const wampNodeReady = new Promise(resolve => {
+			wampNode.onopen = session => resolve(session)
+			wampNode.open()
+		})
+		const zreNodeReady  = zreNode.start()
+		return Promise.all([zreNodeReady, wampNodeReady]).catch(error => console.log('error while starting', error))
+	})
 
 	describe('WAMP to ZRE', () => {
 		test('Shout from WAMP to ZRE node', done => {
@@ -157,15 +162,13 @@ describe('Communication', () => {
 				})
 			})
 
-			const zreNode2 = Zyre.new({name: 'node 2'})
+			const zreNode2 = new OneTestZyre({name: 'node 2'})
 			const secondNodeReceived = new Promise(resolve => {
-				const timeout = setTimeout(() => zreNode2.stop(), jasmine.DEFAULT_TIMEOUT_INTERVAL)
 				zreNode2.start(() => {
 					zreNode2.join(testGroup)
 					zreNode2.on('shout', (id, name, message, group) => {
 						if (group === testGroup) {
 							expect(message).toEqual(testMessage)
-							clearTimeout(timeout)
 							zreNode2.stop()
 							resolve()
 						}
@@ -197,6 +200,21 @@ describe('Communication', () => {
 	describe('ZRE to WAMP', () => {
 
 	})
+
+	afterAll(() => new Promise(
+		resolve => {
+			setTimeout(function() {
+				const wampClosed = new Promise(resolve => {
+					wampNode.onclose = () => resolve()
+					wampNode.close()
+				})
+				const zreClosed = zreNode.stop()
+
+				Promise.all([wampClosed, zreClosed]).catch(error => console.log('error while closing', error))
+					.then(() => resolve())
+			}, 2000)
+		})
+	)
 })
 
 class OneTestZyre extends Zyre {

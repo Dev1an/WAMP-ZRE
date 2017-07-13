@@ -25,12 +25,13 @@ module.exports = class Bridge extends EventEmitter {
 			this.wampObserverNode.onopen = session => enterWampNetwork()
 			this.wampObserverNode.open()
 		})
-		this.onReady = Promise.all([onZreNetwork, onWampNetwork])
-		this.onReady.then(() => {
-			this.observeWampNetwork()
+
+		this.onReady = Promise.all([onZreNetwork, onWampNetwork]).then(() => {
 			this.observeZreNetwork()
-			this.emit('ready')
+			return this.observeWampNetwork()
 		})
+
+		this.onReady.then(() => this.emit('ready'))
 	}
 
 	observeZreNetwork() {
@@ -72,12 +73,12 @@ module.exports = class Bridge extends EventEmitter {
 
 	observeWampNetwork() {
 		// Listen to the shout topic and shout its messages into the zyre network
-		this.wampObserverNode.session.subscribe(Bridge.getShoutURI(), ([group, message]) => {
+		const shoutObserver = this.wampObserverNode.session.subscribe(Bridge.getShoutURI(), ([group, message]) => {
 			this.zreObserverNode.shout(group, message)
 		})
 
 		// Create ZRE reflections for incoming WAMP-clients
-		this.wampObserverNode.session.subscribe('wamp.session.on_join' , ([details]) => {
+		const joinObserver = this.wampObserverNode.session.subscribe('wamp.session.on_join' , ([details]) => {
 			if (this.wampObserverNode.session.id === details.session) return
 			// If this is a WAMP reflection of a ZRE node return
 			for (let node of this.wampReflectionsOfZreNodes.values())
@@ -100,7 +101,7 @@ module.exports = class Bridge extends EventEmitter {
 			})
 		})
 
-		this.wampObserverNode.session.subscribe('wamp.session.on_leave', ([leavingSessionID]) => {
+		const leaveObserver = this.wampObserverNode.session.subscribe('wamp.session.on_leave', ([leavingSessionID]) => {
 			const reflection = this.zreReflectionsOfWampNodes.get(leavingSessionID)
 			if (reflection !== undefined) {
 				reflection.stop().then(() => {
@@ -108,6 +109,8 @@ module.exports = class Bridge extends EventEmitter {
 				})
 			}
 		})
+
+		return Promise.all([shoutObserver, joinObserver, leaveObserver])
 	}
 
 	destroy() {
