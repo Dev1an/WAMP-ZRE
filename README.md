@@ -100,12 +100,35 @@ The WAMP bridge is a ZRE peer you can use to call remote procedures.
 
 ### Call remote procedure
 
-Whisper a MsgPack encoded message to the WAMP bridge with the following structure:
+Whisper a MsgPack encoded dictionary to the WAMP bridge with the following structure:
 
 ```javascript
 {
   "uri": String, // the URI of the WAMP procedure to call
-  "argument": Array|Dictionary
+  "argument": Array|Dictionary,
+  "id": (Number|String) // Optional; a token used to differenciate return values
+}
+```
+
+#### Return value
+
+The result of a procedure call (if any) is whispered back as a MsgPack encoded dictionary with the following structure:
+
+```javascript
+{
+  "type": "WAMP RPC result"
+  "id": (Number|String) // Optional; the id provided in the originating request
+  "result": Array|Dictionary|String|Number,
+}
+```
+
+#### Error
+
+```javascript
+{
+  "type": "WAMP RPC result"
+  "id": (Number|String) // Optional; the id provided in the originating request
+  "error": Array|Dictionary|String|Number,
 }
 ```
 

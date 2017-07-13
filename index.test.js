@@ -133,8 +133,13 @@ describe('Communication', () => {
 		return Promise.all([zreNodeReady, wampNodeReady]).catch(error => console.log('error while starting', error))
 	})
 
+	afterEach(() => {
+		zreNode.removeAllListeners()
+	})
+
 	describe('WAMP to ZRE', () => {
 		test('Shout from WAMP to ZRE node', done => {
+			expect.assertions(1)
 			const testGroup = 'org.devian.shout-test.&@/=+°';
 			const testMessage = 'My special shout test message'
 
@@ -152,6 +157,7 @@ describe('Communication', () => {
 		test('Shout from WAMP to multiple ZRE nodes', done => {
 			const testGroup = 'org.devian.shout-test.2';
 			const testMessage = 'My special broadcast message'
+			expect.assertions(2)
 
 			const firstNodeReceived = new Promise(resolve => {
 				zreNode.join(testGroup)
@@ -186,6 +192,7 @@ describe('Communication', () => {
 		})
 
 		test('Whisper from WAMP to ZRE Node', done => {
+			expect.assertions(1)
 			const testMessage = 'My special whisper message'
 			zreNode.on('whisper', (id, name, message) => {
 				expect(message).toEqual(testMessage)
@@ -200,7 +207,7 @@ describe('Communication', () => {
 
 	describe('ZRE to WAMP', () => {
 		describe('Call WAMP procedure from ZRE peer', () => {
-			test('Using an array as argument', done => {
+			test('passes an array as argument', done => {
 				const testURI = 'WAMP-Bridge.test.procedure.1'
 				const testArguments = ['Hello', 'world']
 				wampNode.session.register(testURI, receivedArguments => {
@@ -216,7 +223,7 @@ describe('Communication', () => {
 				)
 			})
 
-			test('Using a dictionary as argument', done => {
+			test('passes a dictionary as argument', done => {
 				const testURI = 'WAMP-Bridge.test.procedure.2'
 				const testArgument = {Hello: 'world'}
 				wampNode.session.register(testURI, (_,receivedArgument) => {
@@ -226,6 +233,30 @@ describe('Communication', () => {
 					zreNode.whisper(bridge.zreObserverNode.getIdentity(), msgpack.encode({
 						uri: testURI,
 						argument: testArgument
+					}))
+				}).catch(
+					error => expect(error).toBeNull()
+				)
+			})
+
+			test('returns a string', done => {
+				const testURI = 'WAMP-Bridge.test.procedure.3'
+				const testResult = "Correct result"
+				const testID = 683
+
+				wampNode.session.register(testURI, () => testResult).then(() => {
+					zreNode.setEncoding(null)
+					zreNode.on('whisper', (senderID, name, buffer) => {
+						const {type, result, id} = msgpack.decode(buffer)
+						expect(senderID).toEqual(bridge.zreObserverNode.getIdentity())
+						expect(type).toEqual('WAMP RPC result')
+						expect(id).toEqual(testID)
+						expect(result).toEqual(testResult)
+						done()
+					})
+					zreNode.whisper(bridge.zreObserverNode.getIdentity(), msgpack.encode({
+						uri: testURI,
+						id: testID
 					}))
 				}).catch(
 					error => expect(error).toBeNull()
