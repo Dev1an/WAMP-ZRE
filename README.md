@@ -35,6 +35,8 @@ To discover ZRE peers use the standard wamp [Registration meta](https://github.c
 
 ## Talk to ZRE peers via WAMP
 
+Currently the bridge can only transform utf8 data => Todo support binary data
+
 ### Shout
 
 Publish an (two-element) array containing the ZRE group (as first element) and a message (as second element) to the topic with WAMP URI: `ZRE-Bridge.shout` 
@@ -76,11 +78,21 @@ wampNode.open()
 ```
 ## Discover WAMP clients via ZRE 
 
-Todo
+For each WAMP client that opens a session, the bridge creates a corresponding ZRE peer. These ZRE peers are referred to as "ZRE reflections" of the WAMP clients. Each ZRE reflection ENTERS the network with the following header
+
+```JSON
+{
+  "WAMP-sesion-id": "xxxxxxxxxxxx"
+}
+```
+
+
 
 ## Talk to WAMP clients via ZRE
 
-Todo
+### Call remote procedure
+
+
 
 # Development
 
