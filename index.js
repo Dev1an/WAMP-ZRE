@@ -3,9 +3,10 @@ const Zyre = require('zyre.js')
 const Autobahn = require('autobahn')
 
 module.exports = class Bridge extends EventEmitter {
-	constructor({WAMP: {endpoint: wampEndpoint}}) {
+	constructor({WAMP: {endpoint: wampEndpoint}, ZRE: {reflectionGroups = ['WAMP-Bridge reflections']}}) {
 		super();
 		this.wampEndpoint = wampEndpoint // format {url: String, realm: String}
+		this.zreReflectionGroups = reflectionGroups
 
 		this.zreObserverNode = Zyre.new({name: 'WAMP Bridge'})
 		this.wampObserverNode = new Autobahn.Connection(this.wampEndpoint)
@@ -14,7 +15,10 @@ module.exports = class Bridge extends EventEmitter {
 		 * A dictionary that maps a ZRE-node's ID to its coresponding Autobahn connection.
 		 */
 		this.wampReflectionsOfZreNodes = new Map()
-		this.zreReflectionsOfWampNodes = []
+		/**
+		 * A dictionary that maps a WAMP-node's current session ID to its corresponding ZRE-node
+		 */
+		this.zreReflectionsOfWampNodes = new Map()
 
 		const  onZreNetwork = this.zreObserverNode.start()
 		const onWampNetwork = new Promise(enterWampNetwork => {
@@ -31,7 +35,13 @@ module.exports = class Bridge extends EventEmitter {
 
 	observeZreNetwork() {
 		this.zreObserverNode.on('connect', (id, name, headers) => {
+			if (this.zreObserverNode.getIdentity() === id) return
+			// If this is a ZRE reflection of a WAMP node then return
+			for (let node of this.zreReflectionsOfWampNodes.values())
+				if (node.getIdentity() === id) return
+			// Else make a WAMP reflection of the ZRE-node
 			const wampReflection = new Autobahn.Connection(this.wampEndpoint)
+			this.wampReflectionsOfZreNodes.set(id, wampReflection)
 			wampReflection.onopen = session => {
 				session.register(Bridge.getWhisperURI(id), ([message], argumentObject, details) => {
 					return new Promise((resolve, reject) => {
@@ -47,30 +57,64 @@ module.exports = class Bridge extends EventEmitter {
 				session.register(Bridge.getZrePeerIdURI(session.id), () => [id])
 			}
 			wampReflection.open()
-			this.wampReflectionsOfZreNodes.set(id, wampReflection)
 		})
 
 		this.zreObserverNode.on('disconnect', id => {
 			const reflection = this.wampReflectionsOfZreNodes.get(id)
 			if (reflection !== undefined) {
-				reflection.close()
-				this.wampReflectionsOfZreNodes.delete(id)
+				const closeError = reflection.close()
+				if (closeError === undefined) {
+					this.wampReflectionsOfZreNodes.delete(id)
+				}
 			}
 		})
 	}
 
 	observeWampNetwork() {
+		// Listen to the shout topic and shout its messages into the zyre network
 		this.wampObserverNode.session.subscribe(Bridge.getShoutURI(), ([group, message]) => {
 			this.zreObserverNode.shout(group, message)
+		})
+
+		// Create ZRE reflections for incoming WAMP-clients
+		this.wampObserverNode.session.subscribe('wamp.session.on_join' , ([details]) => {
+			if (this.wampObserverNode.session.id === details.session) return
+			// If this is a WAMP reflection of a ZRE node return
+			for (let node of this.wampReflectionsOfZreNodes.values())
+				if (node.session !== undefined && node.session.id === details.session) return
+			// Else create reflection
+			const zreReflection = new Zyre({name: `Reflection of WAMP session: ${details.session}`})
+			this.zreReflectionsOfWampNodes.set(details.session, zreReflection)
+			zreReflection.on('whisper', (id, name, message)=>{
+				//Todo
+			})
+			zreReflection.start().then(() => {
+				for (let group of this.zreReflectionGroups) {
+					zreReflection.join(group)
+				}
+			})
+		})
+
+		this.wampObserverNode.session.subscribe('wamp.session.on_leave', ([leavingSessionID]) => {
+			const reflection = this.zreReflectionsOfWampNodes.get(leavingSessionID)
+			if (reflection !== undefined) {
+				reflection.close().then(() => {
+					this.zreReflectionsOfWampNodes.delete(leavingSessionID)
+				})
+			}
 		})
 	}
 
 	destroy() {
-		this.wampObserverNode.close()
-		this.zreObserverNode.stop()
-		const reflectionsClosed = []
+		const wampObserverClosed = new Promise((resolve) => {
+			this.wampObserverNode.onclose = () => resolve()
+			this.wampObserverNode.close()
+		})
+		const zreObserverClosed = this.zreObserverNode.stop()
+
+		const nodesClosed = [wampObserverClosed, zreObserverClosed]
 		for (let node of this.wampReflectionsOfZreNodes.values()) {
-			reflectionsClosed.push(new Promise(function (resolve) {
+			nodesClosed.push(new Promise(function (resolve) {
 				node.onclose = function() {
 					resolve()
 				}
@@ -81,7 +125,10 @@ module.exports = class Bridge extends EventEmitter {
 				setTimeout(()=>node.close(), 20)
 			}))
 		}
-		return Promise.all(reflectionsClosed)
+		for (let node of this.zreReflectionsOfWampNodes.values()) {
+			nodesClosed.push(node.stop())
+		}
+		return Promise.all(nodesClosed)
 	}
 
 	static getShoutURI() {

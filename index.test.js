@@ -12,7 +12,10 @@ const wampEndpoint = {
 	url: 'ws://localhost:8080/ws',
 	realm: 'realm1'
 }
-const bridge = new Bridge({WAMP: {endpoint: wampEndpoint} })
+const bridge = new Bridge({
+	WAMP: {endpoint: wampEndpoint},
+	ZRE: {}
+})
 
 afterAll(() => {
 	return bridge.destroy()
