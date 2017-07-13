@@ -83,7 +83,12 @@ module.exports = class Bridge extends EventEmitter {
 			for (let node of this.wampReflectionsOfZreNodes.values())
 				if (node.session !== undefined && node.session.id === details.session) return
 			// Else create reflection
-			const zreReflection = new Zyre({name: `Reflection of WAMP session: ${details.session}`})
+			const zreReflection = new Zyre({
+				name: `Reflection of WAMP session: ${details.session}`,
+				headers: {
+					[Bridge.getWAMPsessionIdHeaderKey()]: details.session
+				}
+			})
 			this.zreReflectionsOfWampNodes.set(details.session, zreReflection)
 			zreReflection.on('whisper', (id, name, message)=>{
 				//Todo
@@ -98,7 +103,7 @@ module.exports = class Bridge extends EventEmitter {
 		this.wampObserverNode.session.subscribe('wamp.session.on_leave', ([leavingSessionID]) => {
 			const reflection = this.zreReflectionsOfWampNodes.get(leavingSessionID)
 			if (reflection !== undefined) {
-				reflection.close().then(() => {
+				reflection.stop().then(() => {
 					this.zreReflectionsOfWampNodes.delete(leavingSessionID)
 				})
 			}
@@ -141,5 +146,9 @@ module.exports = class Bridge extends EventEmitter {
 
 	static getZrePeerIdURI(sessionID) {
 		return `ZRE-Bridge.wamp-session.${sessionID}.get-zre-peer-id`
+	}
+
+	static getWAMPsessionIdHeaderKey() {
+		return `WAMP-sesion-id`
 	}
 }

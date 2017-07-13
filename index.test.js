@@ -114,7 +114,7 @@ describe('Send WAMP messages to ZRE network', () => {
 
 		zreNode.join(testGroup)
 		zreNode.on('shout', (id, name, message, group) => {
-			if (group == testGroup) {
+			if (group === testGroup) {
 				expect(message).toEqual(testMessage)
 				done()
 			}
@@ -130,7 +130,7 @@ describe('Send WAMP messages to ZRE network', () => {
 		const firstNodeReceived = new Promise(resolve => {
 			zreNode.join(testGroup)
 			zreNode.on('shout', (id, name, message, group) => {
-				if (group == testGroup) {
+				if (group === testGroup) {
 					expect(message).toEqual(testMessage)
 					resolve()
 				}
@@ -143,7 +143,7 @@ describe('Send WAMP messages to ZRE network', () => {
 			zreNode2.start(() => {
 				zreNode2.join(testGroup)
 				zreNode2.on('shout', (id, name, message, group) => {
-					if (group == testGroup) {
+					if (group === testGroup) {
 						expect(message).toEqual(testMessage)
 						clearTimeout(timeout)
 						zreNode2.stop()
@@ -154,7 +154,7 @@ describe('Send WAMP messages to ZRE network', () => {
 		})
 
 		zreNode.on('join', (id, name, group) => {
-			if (id == zreNode2.getIdentity() && group == testGroup) {
+			if (id === zreNode2.getIdentity() && group === testGroup) {
 				wampNode.session.publish(Bridge.getShoutURI(), [testGroup, testMessage])
 			}
 		})
@@ -174,6 +174,45 @@ describe('Send WAMP messages to ZRE network', () => {
 	})
 })
 
+describe('ZRE reflection lifecycle', () => {
+	const zreObserver = new Zyre({name: 'observer for ZRE reflection lifecycle test'})
+	beforeAll(() => zreObserver.start())
+	afterAll(()  => zreObserver.stop())
+	afterEach(() => zreObserver.removeAllListeners())
+
+	test('Reflection is created for each wamp session', done => {
+		const wampConnection = new OneTestAutobahnConnection(wampEndpoint);
+		wampConnection.onopen = function (session) {
+		}
+
+		zreObserver.on('connect', (id, name, headers) => {
+			if (headers[Bridge.getWAMPsessionIdHeaderKey()] == wampConnection.session.id) {
+				wampConnection.onclose = () => done()
+				wampConnection.stop()
+			}
+		})
+
+		wampConnection.open()
+	})
+
+	test('Reflection is stopped after WAMP session ends', done => {
+		const wampConnection = new OneTestAutobahnConnection(wampEndpoint);
+
+		let zreNodeID
+		zreObserver.on('connect', (id, name, headers) => {
+			if (headers[Bridge.getWAMPsessionIdHeaderKey()] == wampConnection.session.id) {
+				zreNodeID = id
+				wampConnection.stop()
+			}
+		})
+		zreObserver.on('disconnect', id => {
+			if (id === zreNodeID) done()
+		})
+
+		wampConnection.open()
+	})
+})
+
 class OneTestZyre extends Zyre {
 	constructor(options) {
 		super(options)
@@ -186,5 +225,20 @@ class OneTestZyre extends Zyre {
 	stop() {
 		clearTimeout(this._testTimeout)
 		return super.stop()
+	}
+}
+
+class OneTestAutobahnConnection extends Autobahn.Connection {
+	constructor(options) {
+		super(options)
+
+		this._testTimeout = setTimeout(() => {
+			super.close()
+		}, jasmine.DEFAULT_TIMEOUT_INTERVAL)
+	}
+
+	stop() {
+		clearTimeout(this._testTimeout)
+		return super.close()
 	}
 }
