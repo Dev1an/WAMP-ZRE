@@ -86,13 +86,28 @@ For each WAMP client that opens a session, the bridge creates a corresponding ZR
 }
 ```
 
-
-
 ## Talk to WAMP clients via ZRE
+
+Apart from the reflections of WAMP sessions, the bridge also creates another peer we will refer to as the "WAMP bridge". It enters the network with the following header
+
+```json
+{
+  "WAMP-bridge-version": "1.0.0"
+}
+```
+
+The WAMP bridge is a ZRE peer you can use to call remote procedures.
 
 ### Call remote procedure
 
-Todo
+Whisper a MsgPack encoded message to the WAMP bridge with the following structure:
+
+```javascript
+{
+  "uri": String, // the URI of the WAMP procedure to call
+  "argument": Array|Dictionary
+}
+```
 
 ### Subscribe to topic
 

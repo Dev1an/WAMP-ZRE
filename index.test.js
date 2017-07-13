@@ -199,37 +199,41 @@ describe('Communication', () => {
 	})
 
 	describe('ZRE to WAMP', () => {
-		test('Call WAMP procedure with array as argument from ZRE', done => {
-			const testURI = 'WAMP-Bridge.test.procedure.1'
-			const testArguments = ['Hello', 'world']
-			wampNode.session.register(testURI, receivedArguments => {
-				expect(receivedArguments).toEqual(testArguments)
-				done()
-			}).then(() => {
-				zreNode.whisper(bridge.zreObserverNode.getIdentity(), msgpack.encode({
-					uri: testURI,
-					payload: testArguments
-				}))
-			}).catch(
-				error => expect(error).toBeNull()
-			)
+		describe('Call WAMP procedure from ZRE peer', () => {
+			test('Using an array as argument', done => {
+				const testURI = 'WAMP-Bridge.test.procedure.1'
+				const testArguments = ['Hello', 'world']
+				wampNode.session.register(testURI, receivedArguments => {
+					expect(receivedArguments).toEqual(testArguments)
+					done()
+				}).then(() => {
+					zreNode.whisper(bridge.zreObserverNode.getIdentity(), msgpack.encode({
+						uri: testURI,
+						argument: testArguments
+					}))
+				}).catch(
+					error => expect(error).toBeNull()
+				)
+			})
+
+			test('Using a dictionary as argument', done => {
+				const testURI = 'WAMP-Bridge.test.procedure.2'
+				const testArgument = {Hello: 'world'}
+				wampNode.session.register(testURI, (_,receivedArgument) => {
+					expect(receivedArgument).toEqual(testArgument)
+					done()
+				}).then(() => {
+					zreNode.whisper(bridge.zreObserverNode.getIdentity(), msgpack.encode({
+						uri: testURI,
+						argument: testArgument
+					}))
+				}).catch(
+					error => expect(error).toBeNull()
+				)
+			})
 		})
 
-		test('Call WAMP procedure with dictionary as argument from ZRE', done => {
-			const testURI = 'WAMP-Bridge.test.procedure.2'
-			const testArgument = {Hello: 'world'}
-			wampNode.session.register(testURI, (_,receivedArgument) => {
-				expect(receivedArgument).toEqual(testArgument)
-				done()
-			}).then(() => {
-				zreNode.whisper(bridge.zreObserverNode.getIdentity(), msgpack.encode({
-					uri: testURI,
-					payload: testArgument
-				}))
-			}).catch(
-				error => expect(error).toBeNull()
-			)
-		})
+
 	})
 
 	afterAll(() => new Promise(
