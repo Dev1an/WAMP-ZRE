@@ -82,11 +82,14 @@ describe('Reflection lifecycle', () => {
 
 		test('Reflection is created for each wamp session', done => {
 			const wampConnection = new OneTestAutobahnConnection(wampEndpoint);
+			const headerKey = Bridge.getWAMPsessionIdHeaderKey()
 
 			zreObserver.on('connect', (id, name, headers) => {
-				if (headers[Bridge.getWAMPsessionIdHeaderKey()] == wampConnection.session.id) {
-					wampConnection.onclose = () => done()
-					wampConnection.stop()
+				if (wampConnection.session != null && wampConnection.session.id != null) {
+					if (headers[headerKey] == wampConnection.session.id) {
+						wampConnection.onclose = () => done()
+						wampConnection.stop()
+					}
 				}
 			})
 
@@ -97,14 +100,16 @@ describe('Reflection lifecycle', () => {
 			const wampConnection = new OneTestAutobahnConnection(wampEndpoint);
 
 			let zreNodeID
-			zreObserver.on('connect', (id, name, headers) => {
-				if (headers[Bridge.getWAMPsessionIdHeaderKey()] == wampConnection.session.id) {
-					zreNodeID = id
-					wampConnection.stop()
-				}
-			})
 			zreObserver.on('disconnect', id => {
 				if (id === zreNodeID) done()
+			})
+			zreObserver.on('connect', (id, name, headers) => {
+				if (wampConnection.session != null && wampConnection.session.id != null) {
+					if (headers[Bridge.getWAMPsessionIdHeaderKey()] == wampConnection.session.id) {
+						zreNodeID = id
+						wampConnection.stop()
+					}
+				}
 			})
 
 			wampConnection.open()
@@ -255,7 +260,7 @@ describe('Communication', () => {
 				wampNode.session.register(testURI, () => testResult).then(() => {
 					zreNode.setEncoding(null)
 					zreNode.on('whisper', (senderID, name, buffer) => {
-						console.log('test node received')
+						console.log('test node received:')
 						console.log(msgpack.decode(buffer))
 						const {type, result, id} = msgpack.decode(buffer)
 						expect(senderID).toEqual(bridge.zreObserverNode.getIdentity())
