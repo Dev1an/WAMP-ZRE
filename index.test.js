@@ -156,7 +156,7 @@ describe('Communication', () => {
 				}
 			})
 
-			wampNode.session.publish(Bridge.getShoutURI(), [testGroup, testMessage])
+			wampNode.session.publish(Bridge.getShoutURI(testGroup), [testMessage])
 		})
 
 		test('Shout from WAMP to multiple ZRE nodes', done => {
@@ -190,7 +190,7 @@ describe('Communication', () => {
 
 			zreNode.on('join', (id, name, group) => {
 				if (id === zreNode2.getIdentity() && group === testGroup) {
-					wampNode.session.publish(Bridge.getShoutURI(), [testGroup, testMessage])
+					wampNode.session.publish(Bridge.getShoutURI(testGroup), [testMessage])
 				}
 			})
 			Promise.all([firstNodeReceived, secondNodeReceived]).then(() => done())

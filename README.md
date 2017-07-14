@@ -39,7 +39,7 @@ Currently the bridge can only transform utf8 data => Todo support binary data
 
 ### Shout
 
-Publish an (two-element) array containing the ZRE group (as first element) and a message (as second element) to the topic with WAMP URI: `ZRE-Bridge.shout` 
+Publish an (two-element) array containing the ZRE group (as first element) and a message (as second element) to the topic with WAMP URI: `ZRE-Bridge.shout.out.<ZRE GROUP>` 
 
 The bridge listens to this topic and shouts the messages into the ZRE network.
 
@@ -52,7 +52,7 @@ const wampNode = new Autobahn.Connection({
 	realm: 'realm1'
 })
 wampNode.onopen = session => {
-  session.publish('ZRE-Bridge.shout', ['myZREgroup', 'hello zre group'])
+  session.publish('ZRE-Bridge.shout.out', ['myZREgroup', 'hello zre group'])
 }
 wampNode.open()
 ```

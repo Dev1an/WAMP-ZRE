@@ -177,9 +177,11 @@ module.exports = class Bridge extends EventEmitter {
 
 	observeWampNetwork() {
 		// Listen to the shout topic and shout its messages into the zyre network
-		const shoutObserver = this.wampObserverNode.session.subscribe(Bridge.getShoutURI(), ([group, message]) => {
+		const shoutObserver = this.wampObserverNode.session.subscribe(Bridge.getShoutUriPrefix(), ([message], _, details) => {
+			console.log('received shout request on URI', details.topic)
+			const group = Bridge.getGroupFromShoutURI(details.topic)
 			this.zreObserverNode.shout(group, message)
-		})
+		}, {match: 'prefix'})
 
 		// Create ZRE reflections for incoming WAMP-clients
 		const joinObserver = this.wampObserverNode.session.subscribe('wamp.session.on_join' , ([details]) => {
@@ -243,8 +245,16 @@ module.exports = class Bridge extends EventEmitter {
 		return Promise.all(nodesClosed)
 	}
 
-	static getShoutURI() {
+	static getShoutUriPrefix() {
 		return 'ZRE-Bridge.shout.out'
+	}
+
+	static getShoutURI(zreGroup) {
+		return Bridge.getShoutUriPrefix() + '.' + Bridge.encodeURI(zreGroup)
+	}
+
+	static getGroupFromShoutURI(uri) {
+		return Bridge.decodeURI(uri.slice(Bridge.getShoutUriPrefix().length + 1))
 	}
 
 	static getPublicationURI() {
@@ -281,5 +291,13 @@ module.exports = class Bridge extends EventEmitter {
 
 	static getVersionHeaderKey() {
 		return 'WAMP-bridge-version'
+	}
+
+	static encodeURI(string) {
+		return string.replace(/[\x20\x23\x25\x2e]/g, (character, offset) => "%" + string.charCodeAt(offset).toString(16))
+	}
+
+	static decodeURI(string) {
+		return string.replace(/%(20|23|25|2e|2E)/g, (character, hex) => String.fromCharCode(parseInt(hex, 16)))
 	}
 }
