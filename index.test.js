@@ -255,7 +255,7 @@ describe('Communication', () => {
 				const testResult = "Correct result"
 				const testID = 683
 
-				expect.assertions(4)
+				expect.assertions(1)
 
 				wampNode.session.register(testURI, () => testResult).then(() => {
 					zreNode.setEncoding(null)
@@ -263,15 +263,14 @@ describe('Communication', () => {
 						console.log('test node received:')
 						console.log(msgpack.decode(buffer))
 						const {type, result, id} = msgpack.decode(buffer)
-						try {
-							expect(senderID).toEqual(bridge.zreObserverNode.getIdentity())
-							expect(type).toEqual('WAMP RPC result')
-							expect(id).toEqual(testID)
-							expect(result).toEqual(testResult)
-						} catch (error) {
-							done.fail(error)
+						if (id === testID && senderID === bridge.zreObserverNode.getIdentity() && type === 'WAMP RPC result') {
+							try {
+								expect(result).toEqual(testResult)
+								done()
+							} catch (error) {
+								done.fail(error)
+							}
 						}
-						done()
 					})
 					zreNode.whisper(bridge.zreObserverNode.getIdentity(), msgpack.encode({
 						uri: testURI,
