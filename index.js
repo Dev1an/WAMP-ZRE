@@ -103,6 +103,19 @@ module.exports = class Bridge extends EventEmitter {
 				}
 			}
 		})
+		this.zreObserverNode.on('leave', (id, name, group) => {
+			if (group.slice(0,prefixLength) === Bridge.getSubscriptionGroupPrefix()) {
+				const topic = group.slice(prefixLength)
+				const oldNumber = this.numberOfZrePeersForWampTopic.get(topic)
+				if (oldNumber > 1) {
+					this.numberOfZrePeersForWampTopic.set(topic, oldNumber - 1)
+				} else if (oldNumber === 1) {
+					this.numberOfZrePeersForWampTopic.delete(topic)
+					const subscription = this.wampObserverNode.session.subscriptions.find(s => s.topic === topic)
+					this.wampObserverNode.session.unsubscribe(subscription)
+				}
+			}
+		})
 
 		this.zreObserverNode.join(Bridge.getOutgoingPublicationGroup())
 		this.zreObserverNode.on('shout', (id, name, buffer, group) => {
