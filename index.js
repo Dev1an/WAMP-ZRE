@@ -42,8 +42,6 @@ module.exports = class Bridge extends EventEmitter {
 	observeZreNetwork() {
 		this.zreObserverNode.setEncoding(null)
 		this.zreObserverNode.on('whisper', (senderID, name, buffer) => {
-			console.log('Bridge received whisper:')
-			console.log(msgpack.decode(buffer))
 			const {uri, argument, id} = msgpack.decode(buffer)
 			let args, kwArgs
 			if (argument instanceof Array) {

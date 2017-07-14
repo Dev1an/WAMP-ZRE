@@ -260,8 +260,6 @@ describe('Communication', () => {
 				wampNode.session.register(testURI, () => testResult).then(() => {
 					zreNode.setEncoding(null)
 					zreNode.on('whisper', (senderID, name, buffer) => {
-						console.log('test node received:')
-						console.log(msgpack.decode(buffer))
 						const {type, result, id} = msgpack.decode(buffer)
 						if (id === testID && senderID === bridge.zreObserverNode.getIdentity() && type === 'WAMP RPC result') {
 							try {
