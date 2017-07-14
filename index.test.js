@@ -263,10 +263,14 @@ describe('Communication', () => {
 						console.log('test node received:')
 						console.log(msgpack.decode(buffer))
 						const {type, result, id} = msgpack.decode(buffer)
-						expect(senderID).toEqual(bridge.zreObserverNode.getIdentity())
-						expect(type).toEqual('WAMP RPC result')
-						expect(id).toEqual(testID)
-						expect(result).toEqual(testResult)
+						try {
+							expect(senderID).toEqual(bridge.zreObserverNode.getIdentity())
+							expect(type).toEqual('WAMP RPC result')
+							expect(id).toEqual(testID)
+							expect(result).toEqual(testResult)
+						} catch (error) {
+							done.fail(error)
+						}
 						done()
 					})
 					zreNode.whisper(bridge.zreObserverNode.getIdentity(), msgpack.encode({
