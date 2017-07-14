@@ -138,14 +138,17 @@ The result of a procedure call (if any) is whispered back as a MsgPack encoded d
 
 ### Publish message to topic
 
-Shout a msgpack encoded array to group `WAMP outgoing publications`
+Shout a msgpack encoded array to group `WAMP publications`
 
 - The first element must be the WAMP URI of the topic
 - The second element must be the message
 
 ### Subscribe to topic
 
-Todo
+To subscribe to a WAMP topic, join the ZRE group with name: `WAMP subscription:<WAMP-URI>`
+
+- replace `<WAMP-URI>` with the URI of the topic to subscribe to.
+- All messages published to topic `<WAMP-URI>` are shouted in this ZRE group.
 
 # Development
 
@@ -154,3 +157,5 @@ Information for developers of the bridge module.
 ## Testing
 
 When testing the module locally make sure you have a WAMP router running on port 8080.
+
+Currently only one bridge is allowed to exist in the same network.

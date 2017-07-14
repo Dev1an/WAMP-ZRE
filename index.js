@@ -20,6 +20,10 @@ module.exports = class Bridge extends EventEmitter {
 		 * A dictionary that maps a WAMP-node's current session ID to its corresponding ZRE-node
 		 */
 		this.zreReflectionsOfWampNodes = new Map()
+		/**
+		 * A dictionary that maps a WAMP topic URI to the number of ZRE peers subscribed to this topic
+		 */
+		this.numberOfZrePeersForWampTopic = new Map()
 
 		const  onZreNetwork = this.zreObserverNode.start()
 		const onWampNetwork = new Promise(enterWampNetwork => {
@@ -69,29 +73,41 @@ module.exports = class Bridge extends EventEmitter {
 			})
 		})
 
-		// TODO publish shouts to wamp
-		// this.zreObserverNode.on('join', (id, name, group) => {
-		// 	if (group.slice(0,17) == 'WAMP publication:') {
-		// 		const topic = group.slice(17)
-		// 		this.wampReflectionsOfZreNodes.get(id).session.subscribe(topic, (args,kwargs) => {
-		// 			let message
-		// 			if (args instanceof Array && args.length>0) {
-		// 				message = msgpack.encode(args)
-		// 			} else if (kwargs instanceof Object) {
-		// 				message = msgpack.encode(kwargs)
-		// 			} else {
-		// 				message = msgpack.encode([])
-		// 			}
-		// 			this.zreObserverNode.shout(group, message)
-		// 		})
-		// 	}
-		// })
+		const prefixLength = Bridge.getSubscriptionGroupPrefix().length
+		this.zreObserverNode.on('join', (id, name, group) => {
+			if (group.slice(0,prefixLength) === Bridge.getSubscriptionGroupPrefix()) {
+				const topic = group.slice(prefixLength)
+				const oldNumber = this.numberOfZrePeersForWampTopic.get(topic)
+				if (oldNumber >= 1) {
+					this.numberOfZrePeersForWampTopic.set(topic, oldNumber+1)
+				} else {
+					this.wampObserverNode.session.subscribe(topic, (args,kwargs, details) => {
+						let message
+						if (args instanceof Array && args.length>0) {
+							message = msgpack.encode(args)
+						} else if (kwargs instanceof Object) {
+							message = msgpack.encode(kwargs)
+						} else {
+							message = msgpack.encode([])
+						}
+
+						let shouter
+						const publisherReflection = this.zreReflectionsOfWampNodes.get(details.publisher)
+						if (details.publisher !== undefined && publisherReflection !== undefined) {
+							shouter = publisherReflection
+						} else {
+							shouter = this.zreObserverNode
+						}
+						shouter.shout(group, message)
+					})
+				}
+			}
+		})
 
 		this.zreObserverNode.join(Bridge.getOutgoingPublicationGroup())
 		this.zreObserverNode.on('shout', (id, name, buffer, group) => {
 			if (group === Bridge.getOutgoingPublicationGroup()) {
 				const [topic, message] = msgpack.decode(buffer)
-				console.log('should publish some data to', topic)
 				let args, kwArgs
 				if (message instanceof Array) {
 					args = message
@@ -225,7 +241,15 @@ module.exports = class Bridge extends EventEmitter {
 	}
 
 	static getOutgoingPublicationGroup() {
-		return 'WAMP outgoing publications'
+		return 'WAMP publications'
+	}
+
+	static getSubscriptionGroupPrefix() {
+		return 'WAMP subscription:'
+	}
+
+	static getSubscriptionGroup(topicURI) {
+		return Bridge.getSubscriptionGroupPrefix() + topicURI
 	}
 
 	static getWhisperURI(peerID) {

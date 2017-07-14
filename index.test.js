@@ -291,6 +291,27 @@ describe('Communication', () => {
 				zreNode.shout(Bridge.getOutgoingPublicationGroup(), msgpack.encode([testTopic, testObject]))
 			})
 		})
+
+		test('Subscribe to WAMP topic from ZRE peer', done => {
+			const testTopic = 'WAMP-Bridge.test.publication.2'
+			const testObject = {content: 'just a normal ZRE agnostic WAMP message'}
+
+			expect.assertions(1)
+
+			wampNode.session.subscribe('wamp.subscription.on_create', ([sessionID, subscription]) => {
+				wampNode.session.publish(testTopic, [], testObject)
+			})
+
+			const testGroup = Bridge.getSubscriptionGroup(testTopic)
+			zreNode.join(testGroup)
+			zreNode.on('shout', (id, name, buffer, group) => {
+				if (group === Bridge.getSubscriptionGroup(testTopic)) {
+					const message = msgpack.decode(buffer)
+					expect(message).toEqual(testObject)
+					done()
+				}
+			})
+		})
 	})
 
 	afterAll(() => new Promise(
