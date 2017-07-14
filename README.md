@@ -76,6 +76,10 @@ wampNode.onopen = session => {
 }
 wampNode.open()
 ```
+### Join a group
+
+Todo
+
 ## Discover WAMP clients via ZRE 
 
 For each WAMP client that opens a session, the bridge creates a corresponding ZRE peer. These ZRE peers are referred to as "ZRE reflections" of the WAMP clients. Each ZRE reflection ENTERS the network with the following header
@@ -132,11 +136,14 @@ The result of a procedure call (if any) is whispered back as a MsgPack encoded d
 }
 ```
 
-### Subscribe to topic
-
-Todo
-
 ### Publish message to topic
+
+Shout a msgpack encoded array to group `WAMP outgoing publications`
+
+- The first element must be the WAMP URI of the topic
+- The second element must be the message
+
+### Subscribe to topic
 
 Todo
 

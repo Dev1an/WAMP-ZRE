@@ -69,6 +69,49 @@ module.exports = class Bridge extends EventEmitter {
 			})
 		})
 
+		// TODO publish shouts to wamp
+		// this.zreObserverNode.on('join', (id, name, group) => {
+		// 	if (group.slice(0,17) == 'WAMP publication:') {
+		// 		const topic = group.slice(17)
+		// 		this.wampReflectionsOfZreNodes.get(id).session.subscribe(topic, (args,kwargs) => {
+		// 			let message
+		// 			if (args instanceof Array && args.length>0) {
+		// 				message = msgpack.encode(args)
+		// 			} else if (kwargs instanceof Object) {
+		// 				message = msgpack.encode(kwargs)
+		// 			} else {
+		// 				message = msgpack.encode([])
+		// 			}
+		// 			this.zreObserverNode.shout(group, message)
+		// 		})
+		// 	}
+		// })
+
+		this.zreObserverNode.join(Bridge.getOutgoingPublicationGroup())
+		this.zreObserverNode.on('shout', (id, name, buffer, group) => {
+			if (group === Bridge.getOutgoingPublicationGroup()) {
+				const [topic, message] = msgpack.decode(buffer)
+				console.log('should publish some data to', topic)
+				let args, kwArgs
+				if (message instanceof Array) {
+					args = message
+				} else if (message instanceof String || message instanceof Number) {
+					args = [message]
+				} else if (message instanceof Object) {
+					args = []
+					kwArgs = message
+				} else {
+					args = [message]
+				}
+
+				const reflection = this.wampReflectionsOfZreNodes.get(id)
+				const session = (reflection === undefined) ? this.wampObserverNode.session : reflection.session
+				session.publish(topic, args, kwArgs)
+			} else {
+
+			}
+		})
+
 		this.zreObserverNode.on('connect', (id, name, headers) => {
 			if (this.zreObserverNode.getIdentity() === id) return
 			// If this is a ZRE reflection of a WAMP node then return
@@ -174,7 +217,15 @@ module.exports = class Bridge extends EventEmitter {
 	}
 
 	static getShoutURI() {
-		return 'ZRE-Bridge.shout'
+		return 'ZRE-Bridge.shout.out'
+	}
+
+	static getPublicationURI() {
+		return 'ZRE-Bridge.shout.in'
+	}
+
+	static getOutgoingPublicationGroup() {
+		return 'WAMP outgoing publications'
 	}
 
 	static getWhisperURI(peerID) {

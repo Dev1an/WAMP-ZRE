@@ -279,7 +279,18 @@ describe('Communication', () => {
 			})
 		})
 
+		test('Publish message to WAMP topic', done => {
+			const testTopic = 'WAMP-Bridge.test.publication.1'
+			const testObject = {hello: 'world'}
 
+			expect.assertions(1)
+			wampNode.session.subscribe(testTopic, (args, kwargs) => {
+				expect(kwargs).toEqual(testObject)
+				done()
+			}).then(() => {
+				zreNode.shout(Bridge.getOutgoingPublicationGroup(), msgpack.encode([testTopic, testObject]))
+			})
+		})
 	})
 
 	afterAll(() => new Promise(
