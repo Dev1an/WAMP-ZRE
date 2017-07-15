@@ -43,7 +43,12 @@ Publish a (singleton) array containing the message to the topic with WAMP URI:
 
 `ZRE-Bridge.shout.out.<ZRE GROUP>` 
 
-- Where
+- Where `<ZRE GROUP>` is a string containing any UTF8 character except `#`, `.`, `%` and the space character.
+- The 4 non allowed characters should be escaped as follows
+  - Space becomes `%20`
+  - `#` becomes `%23`
+  - `%` becomes `%25`
+  - `.` becomes `%2e`
 
 The bridge listens to this topic and shouts the messages into the ZRE network.
 
@@ -56,7 +61,7 @@ const wampNode = new Autobahn.Connection({
 	realm: 'realm1'
 })
 wampNode.onopen = session => {
-  session.publish('ZRE-Bridge.shout.out', ['myZREgroup', 'hello zre group'])
+  session.publish('ZRE-Bridge.shout.out.myZREgroup', ['hello zre group'])
 }
 wampNode.open()
 ```
@@ -114,8 +119,8 @@ Whisper a MsgPack encoded array to the WAMP bridge with the following structure:
 [
   options,   // Dictionary - WAMP call options
   uri,       // String - the URI of the WAMP procedure to call
-  dataArray, // Array - an array containing arguments
-  dataObject,// Distionary - an object
+  dataArray, // Array - an array containing arguments, can be empty
+  dataObject,// Distionary - an object containing arguments, can be empty
   id         // (Number|String) - A token used to differenciate return values (optional)
 ]
 ```
