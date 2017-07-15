@@ -39,7 +39,11 @@ Currently the bridge can only transform utf8 data => Todo support binary data
 
 ### Shout
 
-Publish an (two-element) array containing the ZRE group (as first element) and a message (as second element) to the topic with WAMP URI: `ZRE-Bridge.shout.out.<ZRE GROUP>` 
+Publish a (singleton) array containing the message to the topic with WAMP URI:
+
+`ZRE-Bridge.shout.out.<ZRE GROUP>` 
+
+- Where
 
 The bridge listens to this topic and shouts the messages into the ZRE network.
 
@@ -104,14 +108,16 @@ The WAMP bridge is a ZRE peer you can use to call remote procedures.
 
 ### Call remote procedure
 
-Whisper a MsgPack encoded dictionary to the WAMP bridge with the following structure:
+Whisper a MsgPack encoded array to the WAMP bridge with the following structure:
 
 ```javascript
-{
-  "uri": String, // the URI of the WAMP procedure to call
-  "argument": Array|Dictionary,
-  "id": (Number|String) // Optional; a token used to differenciate return values
-}
+[
+  options,   // Dictionary - WAMP call options
+  uri,       // String - the URI of the WAMP procedure to call
+  dataArray, // Array - an array containing arguments
+  dataObject,// Distionary - an object
+  id         // (Number|String) - A token used to differenciate return values (optional)
+]
 ```
 
 #### Return value

@@ -222,10 +222,11 @@ describe('Communication', () => {
 					expect(receivedArguments).toEqual(testArguments)
 					done()
 				}).then(() => {
-					zreNode.whisper(bridge.zreObserverNode.getIdentity(), msgpack.encode({
-						uri: testURI,
-						argument: testArguments
-					}))
+					zreNode.whisper(bridge.zreObserverNode.getIdentity(), msgpack.encode([
+						{},
+						testURI,
+						testArguments
+					]))
 				}).catch(
 					error => expect(error).toBeNull()
 				)
@@ -241,10 +242,12 @@ describe('Communication', () => {
 					expect(receivedArgument).toEqual(testArgument)
 					done()
 				}).then(() => {
-					zreNode.whisper(bridge.zreObserverNode.getIdentity(), msgpack.encode({
-						uri: testURI,
-						argument: testArgument
-					}))
+					zreNode.whisper(bridge.zreObserverNode.getIdentity(), msgpack.encode([
+						{},
+						testURI,
+						[],
+						testArgument
+					]))
 				}).catch(
 					error => expect(error).toBeNull()
 				)
@@ -270,12 +273,15 @@ describe('Communication', () => {
 							}
 						}
 					})
-					zreNode.whisper(bridge.zreObserverNode.getIdentity(), msgpack.encode({
-						uri: testURI,
-						id: testID
-					}))
+					zreNode.whisper(bridge.zreObserverNode.getIdentity(), msgpack.encode([
+						{},
+						testURI,
+						[],
+						{},
+						testID
+					]))
 				}).catch(
-					error => expect(error).toBeNull()
+					error => { done.fail(error) }
 				)
 			})
 		})

@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62b236dc-65fa-4677-a950-654c887470c4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.js" afterPath="$PROJECT_DIR$/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.test.js" afterPath="$PROJECT_DIR$/index.test.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -25,30 +24,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="643">
-              <caret line="300" column="8" lean-forward="false" selection-start-line="300" selection-start-column="8" selection-end-line="300" selection-end-column="8" />
+            <state relative-caret-position="440">
+              <caret line="280" column="17" lean-forward="false" selection-start-line="280" selection-start-column="0" selection-end-line="281" selection-end-column="0" />
               <folding>
-                <element signature="e#1613#2181#0" expanded="false" />
-                <element signature="e#5637#5874#0" expanded="false" />
+                <element signature="e#5560#5797#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.test.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.test.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-870">
-              <caret line="192" column="73" lean-forward="false" selection-start-line="192" selection-start-column="73" selection-end-line="192" selection-end-column="73" />
+            <state relative-caret-position="431">
+              <caret line="280" column="30" lean-forward="false" selection-start-line="280" selection-start-column="30" selection-end-line="280" selection-end-column="30" />
               <folding>
                 <element signature="e#3733#4010#0" expanded="false" />
                 <element signature="e#4030#4065#0" expanded="false" />
-                <element signature="e#6069#7953#0" expanded="false" />
-                <element signature="e#6118#6589#0" expanded="false" />
-                <element signature="e#8004#8360#0" expanded="false" />
+                <element signature="e#8021#8377#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -128,6 +124,7 @@
       <find>WAMP-Bridge.test.procedure.3</find>
       <find>shouturi</find>
       <find>console.log</find>
+      <find>instance</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -141,8 +138,8 @@
         <option value="$PROJECT_DIR$/.circleci/config.yml" />
         <option value="$PROJECT_DIR$/node_modules/zyre.js/lib/zyre.js" />
         <option value="$PROJECT_DIR$/lib/test-helpers.js" />
-        <option value="$PROJECT_DIR$/index.test.js" />
         <option value="$PROJECT_DIR$/index.js" />
+        <option value="$PROJECT_DIR$/index.test.js" />
       </list>
     </option>
   </component>
@@ -436,39 +433,39 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Jest - 2017.07.14 at 20h 09m 53s.xml">
-      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
-    </history-entry>
-    <history-entry file="Jest - 2017.07.14 at 20h 10m 48s.xml">
-      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
-    </history-entry>
-    <history-entry file="Jest - 2017.07.14 at 20h 14m 13s.xml">
-      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
-    </history-entry>
-    <history-entry file="Jest - 2017.07.14 at 20h 15m 08s.xml">
-      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
-    </history-entry>
-    <history-entry file="Jest - 2017.07.14 at 20h 15m 49s.xml">
-      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
-    </history-entry>
-    <history-entry file="Jest - 2017.07.14 at 20h 16m 00s.xml">
-      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
-    </history-entry>
-    <history-entry file="Jest - 2017.07.14 at 20h 16m 49s.xml">
-      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
-    </history-entry>
-    <history-entry file="Jest - 2017.07.14 at 20h 17m 20s.xml">
-      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
-    </history-entry>
-    <history-entry file="Jest - 2017.07.14 at 20h 18m 17s.xml">
-      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
-    </history-entry>
     <history-entry file="Jest - 2017.07.14 at 20h 27m 19s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
+    </history-entry>
+    <history-entry file="Jest - 2017.07.15 at 00h 32m 10s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
+    </history-entry>
+    <history-entry file="Jest - 2017.07.15 at 00h 33m 06s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
+    </history-entry>
+    <history-entry file="Jest - 2017.07.15 at 00h 39m 23s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
+    </history-entry>
+    <history-entry file="Jest - 2017.07.15 at 00h 40m 47s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
+    </history-entry>
+    <history-entry file="Jest - 2017.07.15 at 13h 45m 12s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
+    </history-entry>
+    <history-entry file="Jest - 2017.07.15 at 13h 45m 53s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
+    </history-entry>
+    <history-entry file="Jest - 2017.07.15 at 13h 47m 24s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
+    </history-entry>
+    <history-entry file="Jest - 2017.07.15 at 13h 48m 56s.xml">
+      <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
+    </history-entry>
+    <history-entry file="Jest - 2017.07.15 at 13h 50m 27s.xml">
       <configuration name="Jest" configurationId="JavaScriptTestRunnerJest" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="79573000" />
+    <option name="totallyTimeSpent" value="82174000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -481,12 +478,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24802528" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32971507" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26283187" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35132742" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -572,8 +568,7 @@
         <state relative-caret-position="419">
           <caret line="51" column="5" lean-forward="false" selection-start-line="51" selection-start-column="5" selection-end-line="51" selection-end-column="5" />
           <folding>
-            <element signature="e#1613#2181#0" expanded="false" />
-            <element signature="e#5637#5874#0" expanded="false" />
+            <element signature="e#5560#5797#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -585,9 +580,7 @@
           <folding>
             <element signature="e#3733#4010#0" expanded="false" />
             <element signature="e#4030#4065#0" expanded="false" />
-            <element signature="e#6069#7953#0" expanded="false" />
-            <element signature="e#6118#6589#0" expanded="false" />
-            <element signature="e#8004#8360#0" expanded="false" />
+            <element signature="e#8021#8377#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -597,8 +590,7 @@
         <state relative-caret-position="90">
           <caret line="6" column="33" lean-forward="false" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
           <folding>
-            <element signature="e#1613#2181#0" expanded="false" />
-            <element signature="e#5637#5874#0" expanded="false" />
+            <element signature="e#5560#5797#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -623,9 +615,7 @@
           <folding>
             <element signature="e#3733#4010#0" expanded="false" />
             <element signature="e#4030#4065#0" expanded="false" />
-            <element signature="e#6069#7953#0" expanded="false" />
-            <element signature="e#6118#6589#0" expanded="false" />
-            <element signature="e#8004#8360#0" expanded="false" />
+            <element signature="e#8021#8377#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -635,8 +625,7 @@
         <state relative-caret-position="90">
           <caret line="6" column="33" lean-forward="true" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
           <folding>
-            <element signature="e#1613#2181#0" expanded="false" />
-            <element signature="e#5637#5874#0" expanded="false" />
+            <element signature="e#5560#5797#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -648,9 +637,7 @@
           <folding>
             <element signature="e#3733#4010#0" expanded="false" />
             <element signature="e#4030#4065#0" expanded="false" />
-            <element signature="e#6069#7953#0" expanded="false" />
-            <element signature="e#6118#6589#0" expanded="false" />
-            <element signature="e#8004#8360#0" expanded="false" />
+            <element signature="e#8021#8377#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -751,8 +738,7 @@
         <state relative-caret-position="-20">
           <caret line="40" column="39" lean-forward="false" selection-start-line="40" selection-start-column="39" selection-end-line="40" selection-end-column="39" />
           <folding>
-            <element signature="e#1613#2181#0" expanded="false" />
-            <element signature="e#5637#5874#0" expanded="false" />
+            <element signature="e#5560#5797#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -785,9 +771,7 @@
           <folding>
             <element signature="e#3733#4010#0" expanded="false" />
             <element signature="e#4030#4065#0" expanded="false" />
-            <element signature="e#6069#7953#0" expanded="false" />
-            <element signature="e#6118#6589#0" expanded="false" />
-            <element signature="e#8004#8360#0" expanded="false" />
+            <element signature="e#8021#8377#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -797,8 +781,7 @@
         <state relative-caret-position="90">
           <caret line="6" column="33" lean-forward="false" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
           <folding>
-            <element signature="e#1613#2181#0" expanded="false" />
-            <element signature="e#5637#5874#0" expanded="false" />
+            <element signature="e#5560#5797#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -823,9 +806,7 @@
           <folding>
             <element signature="e#3733#4010#0" expanded="false" />
             <element signature="e#4030#4065#0" expanded="false" />
-            <element signature="e#6069#7953#0" expanded="false" />
-            <element signature="e#6118#6589#0" expanded="false" />
-            <element signature="e#8004#8360#0" expanded="false" />
+            <element signature="e#8021#8377#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -835,8 +816,7 @@
         <state relative-caret-position="90">
           <caret line="6" column="33" lean-forward="true" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
           <folding>
-            <element signature="e#1613#2181#0" expanded="false" />
-            <element signature="e#5637#5874#0" expanded="false" />
+            <element signature="e#5560#5797#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -848,9 +828,7 @@
           <folding>
             <element signature="e#3733#4010#0" expanded="false" />
             <element signature="e#4030#4065#0" expanded="false" />
-            <element signature="e#6069#7953#0" expanded="false" />
-            <element signature="e#6118#6589#0" expanded="false" />
-            <element signature="e#8004#8360#0" expanded="false" />
+            <element signature="e#8021#8377#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -977,27 +955,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.test.js">
+    <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-870">
-          <caret line="192" column="73" lean-forward="false" selection-start-line="192" selection-start-column="73" selection-end-line="192" selection-end-column="73" />
+        <state relative-caret-position="440">
+          <caret line="280" column="17" lean-forward="false" selection-start-line="280" selection-start-column="0" selection-end-line="281" selection-end-column="0" />
           <folding>
-            <element signature="e#3733#4010#0" expanded="false" />
-            <element signature="e#4030#4065#0" expanded="false" />
-            <element signature="e#6069#7953#0" expanded="false" />
-            <element signature="e#6118#6589#0" expanded="false" />
-            <element signature="e#8004#8360#0" expanded="false" />
+            <element signature="e#5560#5797#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.js">
+    <entry file="file://$PROJECT_DIR$/index.test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="643">
-          <caret line="300" column="8" lean-forward="false" selection-start-line="300" selection-start-column="8" selection-end-line="300" selection-end-column="8" />
+        <state relative-caret-position="431">
+          <caret line="280" column="30" lean-forward="false" selection-start-line="280" selection-start-column="30" selection-end-line="280" selection-end-column="30" />
           <folding>
-            <element signature="e#1613#2181#0" expanded="false" />
-            <element signature="e#5637#5874#0" expanded="false" />
+            <element signature="e#3733#4010#0" expanded="false" />
+            <element signature="e#4030#4065#0" expanded="false" />
+            <element signature="e#8021#8377#0" expanded="false" />
           </folding>
         </state>
       </provider>
