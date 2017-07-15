@@ -42,15 +42,8 @@ module.exports = class Bridge extends EventEmitter {
 	observeZreNetwork() {
 		this.zreObserverNode.setEncoding(null)
 		this.zreObserverNode.on('whisper', (senderID, name, buffer) => {
-			const {uri, argument, id} = msgpack.decode(buffer)
-			let args, kwArgs
-			if (argument instanceof Array) {
-				args = argument
-			} else {
-				args = []
-				kwArgs = argument
-			}
-			this.wampObserverNode.session.call(uri, args, kwArgs).then(result => {
+			const [options, procedure, arrayData, objectData, id] = msgpack.decode(buffer)
+			this.wampObserverNode.session.call(procedure, arrayData, objectData, options).then(result => {
 				this.zreObserverNode.whisper(
 					senderID,
 					msgpack.encode({

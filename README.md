@@ -39,7 +39,11 @@ Currently the bridge can only transform utf8 data => Todo support binary data
 
 ### Shout
 
-Publish an (two-element) array containing the ZRE group (as first element) and a message (as second element) to the topic with WAMP URI: `ZRE-Bridge.shout.out.<ZRE GROUP>` 
+Publish a (singleton) array containing the message to the topic with WAMP URI:
+
+`ZRE-Bridge.shout.out.<ZRE GROUP>` 
+
+- Where
 
 The bridge listens to this topic and shouts the messages into the ZRE network.
 
