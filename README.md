@@ -5,6 +5,26 @@ WAMP-ZRE Bridge is a tool that allows
 - ZRE peers to send/receive messages to/from a WAMP network
 - WAMP clients to send/receive messages to/from a ZRE network
 
+# Overview
+
+- [Usage](#usage)
+  * [Run the bridge](#run-the-bridge)
+  * [Discovery of ZRE peers via WAMP](#discovery-of-zre-peers-via-wamp)
+  * [Talk to ZRE peers via WAMP](#talk-to-zre-peers-via-wamp)
+    + [Shout](#shout)
+    + [Whisper](#whisper)
+    + [Join a group](#join-a-group)
+    + [Sender disclosure](#sender-disclosure)
+  * [Discover WAMP clients via ZRE](#discover-wamp-clients-via-zre)
+  * [Talk to WAMP clients via ZRE](#talk-to-wamp-clients-via-zre)
+    + [Call remote procedure](#call-remote-procedure)
+      - [Return value](#return-value)
+      - [Error](#error)
+    + [Publish message to topic](#publish-message-to-topic)
+    + [Subscribe to topic](#subscribe-to-topic)
+- [Development](#development)
+  * [Testing](#testing)
+
 # Usage
 
 ## Run the bridge
