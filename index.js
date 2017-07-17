@@ -146,12 +146,12 @@ module.exports = class Bridge extends EventEmitter {
 			const wampReflection = new Autobahn.Connection(this.wampEndpoint)
 			this.wampReflectionsOfZreNodes.set(id, wampReflection)
 			wampReflection.onopen = session => {
-				session.register(Bridge.getWhisperURI(id), ([message], argumentObject, details) => {
+				session.register(Bridge.getWhisperURI(id), (byteArray, argumentObject, details) => {
 					return new Promise(resolve => {
 						let zreNode
 						if (details.caller !== undefined) zreNode = this.zreReflectionsOfWampNodes.get(details.caller)
 						if (zreNode === undefined) zreNode = this.zreObserverNode
-						zreNode.whisper(id, message)
+						zreNode.whisper(id, new Buffer(byteArray))
 						resolve()
 					})
 				})
@@ -174,14 +174,14 @@ module.exports = class Bridge extends EventEmitter {
 
 	observeWampNetwork() {
 		// Listen to the shout topic and shout its messages into the zyre network
-		const shoutObserver = this.wampObserverNode.session.subscribe(Bridge.getShoutUriPrefix(), ([message], _, details) => {
+		const shoutObserver = this.wampObserverNode.session.subscribe(Bridge.getShoutUriPrefix(), (byteArray, _, details) => {
 			const group = Bridge.getGroupFromShoutURI(details.topic)
 
 			let zreNode
 			if (details.publisher !== undefined) zreNode = this.zreReflectionsOfWampNodes.get(details.publisher)
 			if (zreNode === undefined) zreNode = this.zreObserverNode
 
-			zreNode.shout(group, message)
+			zreNode.shout(group, new Buffer(byteArray))
 		}, {match: 'prefix'})
 
 		// Create ZRE reflections for incoming WAMP-clients

@@ -146,55 +146,71 @@ describe('Communication', () => {
 		test('Shout from WAMP to ZRE node', done => {
 			expect.assertions(1)
 			const testGroup = 'org.devian.shout-test.&@/=+°';
-			const testMessage = 'My special shout test message'
+			const testMessage = new Buffer('My special shout test message')
 
 			zreNode.join(testGroup)
+			zreNode.setEncoding(null)
 			zreNode.on('shout', (id, name, message, group) => {
 				if (group === testGroup) {
-					expect(message).toEqual(testMessage)
-					done()
+					try {
+						expect(message).toEqual(testMessage)
+						done()
+					} catch (error) {
+						done.fail(error)
+					}
 				}
 			})
 
+			const byteArrayMessage = Array.prototype.slice.call(testMessage, 0)
 			zreNode.on('connect', (id, name, header) => {
 				if (parseInt(header['WAMP-sesion-id']) === wampNode.session.id) {
-					wampNode.session.publish(Bridge.getShoutURI(testGroup), [testMessage])
+					wampNode.session.publish(Bridge.getShoutURI(testGroup), byteArrayMessage)
 				}
 			})
 		})
 
 		test('Shout from WAMP to multiple ZRE nodes', done => {
 			const testGroup = 'org.devian.shout-test.2';
-			const testMessage = 'My special broadcast message'
+			const testMessage = new Buffer('My special broadcast test message')
 			expect.assertions(2)
 
 			const firstNodeReceived = new Promise(resolve => {
 				zreNode.join(testGroup)
 				zreNode.on('shout', (id, name, message, group) => {
 					if (group === testGroup) {
-						expect(message).toEqual(testMessage)
-						resolve()
+						try {
+							expect(message).toEqual(testMessage)
+							resolve()
+						} catch (error) {
+							done.fail(error)
+						}
 					}
 				})
 			})
 
 			const zreNode2 = new OneTestZyre({name: 'node 2'})
+			zreNode2.setEncoding(null)
 			const secondNodeReceived = new Promise(resolve => {
 				zreNode2.start(() => {
 					zreNode2.join(testGroup)
 					zreNode2.on('shout', (id, name, message, group) => {
 						if (group === testGroup) {
-							expect(message).toEqual(testMessage)
 							zreNode2.stop()
-							resolve()
+							try {
+								expect(message).toEqual(testMessage)
+								resolve()
+							} catch (error) {
+								done.fail(error)
+							}
 						}
 					})
 				})
 			})
 
+			const byteArrayMessage = Array.prototype.slice.call(testMessage, 0)
 			zreNode.on('join', (id, name, group) => {
 				if (id === zreNode2.getIdentity() && group === testGroup) {
-					wampNode.session.publish(Bridge.getShoutURI(testGroup), [testMessage])
+					wampNode.session.publish(Bridge.getShoutURI(testGroup), byteArrayMessage)
 				}
 			})
 			Promise.all([firstNodeReceived, secondNodeReceived]).then(() => done())
@@ -202,15 +218,20 @@ describe('Communication', () => {
 
 		test('Whisper from WAMP to ZRE Node', done => {
 			expect.assertions(1)
-			const testMessage = 'My special whisper message'
+			const testMessage = new Buffer('My special whisper message')
 			zreNode.on('whisper', (id, name, message) => {
-				expect(message).toEqual(testMessage)
-				done()
+				try {
+					expect(message).toEqual(testMessage)
+					done()
+				} catch (error) {
+					done.fail(error)
+				}
 			})
 
 			const peerID = zreNode.getIdentity()
 
-			wampNode.session.call(Bridge.getWhisperURI(peerID), [testMessage])
+			const byteArray = Array.prototype.slice.call(testMessage, 0)
+			wampNode.session.call(Bridge.getWhisperURI(peerID), byteArray)
 		})
 
 		test('Subscribe to ZRE group via WAMP', done => {
