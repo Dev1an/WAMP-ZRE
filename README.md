@@ -92,6 +92,10 @@ wampNode.open()
 
 Subscribe to `ZRE-Bridge.shout.in.<ZRE GROUP>`. Use the same escape method as described for shouts. Messages shouted to group `<ZRE GROUP>` will be published to this topic as a byte array.
 
+### Sender disclosure
+
+When using a WAMP router that allows caller and publisher disclosure, whispers and shouts into the ZRE network will originate from the ZRE reflection of WAMP client that requested the whisper/shout.
+
 ## Discover WAMP clients via ZRE 
 
 For each WAMP client that opens a session, the bridge creates a corresponding ZRE peer. These ZRE peers are referred to as "ZRE reflections" of the WAMP clients. Each ZRE reflection ENTERS the network with the following header
