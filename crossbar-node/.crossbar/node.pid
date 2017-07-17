@@ -1,0 +1,21 @@
+{
+    "pid": 1, 
+    "argv": [
+        "/usr/local/bin/crossbar", 
+        "start", 
+        "--cbdir", 
+        "/node/.crossbar"
+    ], 
+    "options": {
+        "reactor": null, 
+        "command": "start", 
+        "cbdir": "/node/.crossbar", 
+        "config": "config.json", 
+        "personality": "community", 
+        "logdir": null, 
+        "logtofile": false, 
+        "loglevel": "info", 
+        "colour": "auto", 
+        "logformat": "standard"
+    }
+}

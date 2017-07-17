@@ -13,11 +13,13 @@ module.exports = class Bridge extends EventEmitter {
 		this.wampObserverNode = new Autobahn.Connection(this.wampEndpoint)
 
 		/**
-		 * A dictionary that maps a ZRE-node's ID to its coresponding Autobahn connection.
+		 * A dictionary that maps a ZRE-node's ID to its corresponding Autobahn connection.
+		 * @type {Map<string, Autobahn#Connection>}
 		 */
 		this.wampReflectionsOfZreNodes = new Map()
 		/**
 		 * A dictionary that maps a WAMP-node's current session ID to its corresponding ZRE-node
+		 * @type {Map<string, Zyre>}
 		 */
 		this.zreReflectionsOfWampNodes = new Map()
 		/**
@@ -145,13 +147,11 @@ module.exports = class Bridge extends EventEmitter {
 			this.wampReflectionsOfZreNodes.set(id, wampReflection)
 			wampReflection.onopen = session => {
 				session.register(Bridge.getWhisperURI(id), ([message], argumentObject, details) => {
-					return new Promise((resolve, reject) => {
-						if (details.caller === undefined) {
-							this.zreObserverNode.whisper(id, message)
-							resolve()
-						} else {
-							reject('Sending from zyre reflection not implemented')
-						}
+					return new Promise(resolve => {
+						const reflection = this.zreReflectionsOfWampNodes.get(details.caller)
+						const zreNode = (details.caller !== undefined && reflection !== undefined) ? reflection : this.zreObserverNode
+						zreNode.whisper(id, message)
+						resolve()
 					})
 				})
 

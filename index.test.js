@@ -216,7 +216,6 @@ describe('Communication', () => {
 			const testMessage = new Buffer("Normal shout in zyre")
 
 			zreNode.on('join', (id, name, group) => {
-				console.log(name, 'joined', group)
 				if (group === testGroup) {
 					zreNode.shout(testGroup, testMessage)
 				}
