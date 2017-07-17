@@ -208,6 +208,29 @@ describe('Communication', () => {
 
 			wampNode.session.call(Bridge.getWhisperURI(peerID), [testMessage])
 		})
+
+		test('Subscribe to ZRE group via WAMP', done => {
+			expect.assertions(1)
+
+			const testGroup = "Group for WAMP test 1"
+			const testMessage = new Buffer("Normal shout in zyre")
+
+			zreNode.on('join', (id, name, group) => {
+				console.log(name, 'joined', group)
+				if (group === testGroup) {
+					zreNode.shout(testGroup, testMessage)
+				}
+			})
+
+			wampNode.session.subscribe(Bridge.getPublicationTopicForGroup(testGroup), byteArray => {
+				try {
+					expect(new Buffer(byteArray)).toEqual(testMessage)
+					done()
+				} catch (error) {
+					done.fail(error)
+				}
+			})
+		})
 	})
 
 	describe('ZRE to WAMP', () => {

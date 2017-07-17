@@ -35,8 +35,6 @@ To discover ZRE peers use the standard wamp [Registration meta](https://github.c
 
 ## Talk to ZRE peers via WAMP
 
-Currently the bridge can only transform utf8 data => Todo support binary data
-
 ### Shout
 
 Publish a (singleton) array containing the message to the topic with WAMP URI:
@@ -68,7 +66,7 @@ wampNode.open()
 
 ### Whisper
 
-Call the procedure with WAMP URI: `ZRE-Bridge.peer.<peerID>.whisper` (replacing `<peerID>` with the receivers peer id) with a singleton array containing your message.
+Call the procedure with WAMP URI: `ZRE-Bridge.peer.<peerID>.whisper` (replacing `<peerID>` with the receivers peer id) with a singleton array containing your message. (currently message can only be a UTF8 string. todo: remove this constraint)
 
 When the ZRE peer with `<peerID>` entered the network the bridge registered a procedure with the coresponding WAMP URI. When this procedure is called the bridge sends a WHISPER message into the ZRE network.
 
@@ -87,7 +85,7 @@ wampNode.open()
 ```
 ### Join a group
 
-Todo
+Subscribe to `ZRE-Bridge.shout.in.<ZRE GROUP>`. Use the same escape method as described for shouts. Messages shouted to group `<ZRE GROUP>` will be published to this topic as a byte array.
 
 ## Discover WAMP clients via ZRE 
 

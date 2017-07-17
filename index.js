@@ -128,7 +128,10 @@ module.exports = class Bridge extends EventEmitter {
 				const session = (reflection === undefined) ? this.wampObserverNode.session : reflection.session
 				session.publish(topic, args, kwArgs)
 			} else {
-
+				const reflection = this.wampReflectionsOfZreNodes.get(id)
+				const session = (reflection === undefined) ? this.wampObserverNode.session : reflection.session
+				const byteArray = Array.prototype.slice.call(buffer, 0)
+				session.publish(Bridge.getPublicationTopicForGroup(group), byteArray)
 			}
 		})
 
@@ -171,7 +174,6 @@ module.exports = class Bridge extends EventEmitter {
 	observeWampNetwork() {
 		// Listen to the shout topic and shout its messages into the zyre network
 		const shoutObserver = this.wampObserverNode.session.subscribe(Bridge.getShoutUriPrefix(), ([message], _, details) => {
-			console.log('received shout request on URI', details.topic)
 			const group = Bridge.getGroupFromShoutURI(details.topic)
 			this.zreObserverNode.shout(group, message)
 		}, {match: 'prefix'})
@@ -206,6 +208,13 @@ module.exports = class Bridge extends EventEmitter {
 				reflection.stop().then(() => {
 					this.zreReflectionsOfWampNodes.delete(leavingSessionID)
 				})
+			}
+		})
+
+		const subscriptionObserver = this.wampObserverNode.session.subscribe('wamp.subscription.on_create', ([sessionID, subscription]) => {
+			if (subscription.uri.slice(0, Bridge.getPublicationTopicPrefix().length) === Bridge.getPublicationTopicPrefix()) {
+				const group = Bridge.getGroupFromPublicationTopic(subscription.uri)
+				this.zreObserverNode.join(group)
 			}
 		})
 
@@ -250,8 +259,16 @@ module.exports = class Bridge extends EventEmitter {
 		return Bridge.decodeURI(uri.slice(Bridge.getShoutUriPrefix().length + 1))
 	}
 
-	static getPublicationURI() {
+	static getPublicationTopicPrefix() {
 		return 'ZRE-Bridge.shout.in'
+	}
+
+	static getPublicationTopicForGroup(group) {
+		return Bridge.getPublicationTopicPrefix() + '.' + Bridge.encodeURI(group)
+	}
+
+	static getGroupFromPublicationTopic(topic) {
+		return Bridge.decodeURI(topic.slice(Bridge.getPublicationTopicPrefix().length + 1))
 	}
 
 	static getOutgoingPublicationGroup() {
