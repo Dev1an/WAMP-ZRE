@@ -198,9 +198,6 @@ module.exports = class Bridge extends EventEmitter {
 				}
 			})
 			this.zreReflectionsOfWampNodes.set(details.session, zreReflection)
-			zreReflection.on('whisper', (id, name, message)=>{
-				//Todo
-			})
 			zreReflection.start().then(() => {
 				for (let group of this.zreReflectionGroups) {
 					zreReflection.join(group)
