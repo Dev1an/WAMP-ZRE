@@ -156,7 +156,11 @@ describe('Communication', () => {
 				}
 			})
 
-			wampNode.session.publish(Bridge.getShoutURI(testGroup), [testMessage])
+			zreNode.on('connect', (id, name, header) => {
+				if (parseInt(header['WAMP-sesion-id']) === wampNode.session.id) {
+					wampNode.session.publish(Bridge.getShoutURI(testGroup), [testMessage])
+				}
+			})
 		})
 
 		test('Shout from WAMP to multiple ZRE nodes', done => {

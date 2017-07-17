@@ -178,7 +178,7 @@ module.exports = class Bridge extends EventEmitter {
 			const group = Bridge.getGroupFromShoutURI(details.topic)
 
 			let zreNode
-			if (details.caller !== undefined) zreNode = this.zreReflectionsOfWampNodes.get(details.caller)
+			if (details.publisher !== undefined) zreNode = this.zreReflectionsOfWampNodes.get(details.publisher)
 			if (zreNode === undefined) zreNode = this.zreObserverNode
 
 			zreNode.shout(group, message)
