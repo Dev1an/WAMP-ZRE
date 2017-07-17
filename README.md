@@ -1,5 +1,10 @@
 [![CircleCI](https://circleci.com/gh/Dev1an/WAMP-ZRE.svg?style=svg)](https://circleci.com/gh/Dev1an/WAMP-ZRE)
 
+WAMP-ZRE Bridge is a tool that allows
+
+- ZRE peers to send/receive messages to/from a WAMP network
+- WAMP clients to send/receive messages to/from a ZRE network
+
 # Usage
 
 ## Run the bridge
