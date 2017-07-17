@@ -23,6 +23,9 @@ new Bridge({
   WAMP: {
     url: 'ws://localhost:8080/ws',
     realm: 'realm1'
+  },
+  ZRE: {
+    reflectionGroups: ['WAMP-Bridge reflections'] // groups every reflection will enter
   }
 })
 ```
