@@ -65,7 +65,7 @@ To discover ZRE peers use the standard wamp [Registration meta](https://github.c
 
 ### Shout
 
-Publish a (singleton) array containing the message to the topic with WAMP URI:
+Publish a byte array containing the message to the topic with WAMP URI:
 
 `ZRE-Bridge.shout.out.<ZRE GROUP>` 
 
@@ -94,7 +94,7 @@ wampNode.open()
 
 ### Whisper
 
-Call the procedure with WAMP URI: `ZRE-Bridge.peer.<peerID>.whisper` (replacing `<peerID>` with the receivers peer id) with a singleton array containing your message.
+Call the procedure with WAMP URI: `ZRE-Bridge.peer.<peerID>.whisper` (replacing `<peerID>` with the receiver's peer id) with a byte array containing your message.
 
 When the ZRE peer with `<peerID>` entered the network the bridge registered a procedure with the coresponding WAMP URI. When this procedure is called the bridge sends a WHISPER message into the ZRE network.
 
@@ -190,6 +190,10 @@ To subscribe to a WAMP topic, join the ZRE group with name: `WAMP subscription:<
 
 - replace `<WAMP-URI>` with the URI of the topic to subscribe to.
 - All messages published to topic `<WAMP-URI>` are shouted in this ZRE group.
+
+### Register custom wamp procedures
+
+It is also possible to register WAMP procedures from a ZRE node. This can be accomplished using 
 
 # Development
 

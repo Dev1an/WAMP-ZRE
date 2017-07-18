@@ -29,7 +29,14 @@ module.exports = class Bridge extends EventEmitter {
 
 		const  onZreNetwork = this.zreObserverNode.start()
 		const onWampNetwork = new Promise(enterWampNetwork => {
-			this.wampObserverNode.onopen = session => enterWampNetwork()
+			this.wampObserverNode.onopen = session => {
+				session.call('wamp.session.list').then(sessionIDs => {
+					for (let id of sessionIDs) {
+						this.createZreReflectionFor(id)
+					}
+				})
+				enterWampNetwork()
+			}
 			this.wampObserverNode.open()
 		})
 
@@ -172,6 +179,26 @@ module.exports = class Bridge extends EventEmitter {
 		})
 	}
 
+	createZreReflectionFor(wampSessionID) {
+		if (this.wampObserverNode.session.id === wampSessionID) return
+		// If this is a WAMP reflection of a ZRE node return
+		for (let node of this.wampReflectionsOfZreNodes.values())
+			if (node.session !== undefined && node.session.id === wampSessionID) return
+		// Else create reflection
+		const zreReflection = new Zyre({
+			name: `Reflection of WAMP session: ${wampSessionID}`,
+			headers: {
+				[Bridge.getWAMPsessionIdHeaderKey()]: wampSessionID
+			}
+		})
+		this.zreReflectionsOfWampNodes.set(wampSessionID, zreReflection)
+		zreReflection.start().then(() => {
+			for (let group of this.zreReflectionGroups) {
+				zreReflection.join(group)
+			}
+		})
+	}
+
 	observeWampNetwork() {
 		// Listen to the shout topic and shout its messages into the zyre network
 		const shoutObserver = this.wampObserverNode.session.subscribe(Bridge.getShoutUriPrefix(), (byteArray, _, details) => {
@@ -186,23 +213,7 @@ module.exports = class Bridge extends EventEmitter {
 
 		// Create ZRE reflections for incoming WAMP-clients
 		const joinObserver = this.wampObserverNode.session.subscribe('wamp.session.on_join' , ([details]) => {
-			if (this.wampObserverNode.session.id === details.session) return
-			// If this is a WAMP reflection of a ZRE node return
-			for (let node of this.wampReflectionsOfZreNodes.values())
-				if (node.session !== undefined && node.session.id === details.session) return
-			// Else create reflection
-			const zreReflection = new Zyre({
-				name: `Reflection of WAMP session: ${details.session}`,
-				headers: {
-					[Bridge.getWAMPsessionIdHeaderKey()]: details.session
-				}
-			})
-			this.zreReflectionsOfWampNodes.set(details.session, zreReflection)
-			zreReflection.start().then(() => {
-				for (let group of this.zreReflectionGroups) {
-					zreReflection.join(group)
-				}
-			})
+			this.createZreReflectionFor(details.session)
 		})
 
 		const leaveObserver = this.wampObserverNode.session.subscribe('wamp.session.on_leave', ([leavingSessionID]) => {
