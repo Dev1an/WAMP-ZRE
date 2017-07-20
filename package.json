@@ -1,6 +1,6 @@
 {
   "name": "wamp-zre",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Bridge between WAMP en ZRE",
   "main": "index.js",
   "scripts": {

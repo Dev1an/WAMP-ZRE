@@ -4,12 +4,18 @@ const Autobahn = require('autobahn')
 const msgpack = require("msgpack-lite");
 
 module.exports = class Bridge extends EventEmitter {
-	constructor({WAMP: {endpoint: wampEndpoint}, ZRE: {reflectionGroups = ['WAMP-Bridge reflections']}}) {
+	constructor({WAMP: {endpoint: wampEndpoint}, ZRE: {reflectionGroups = ['WAMP-Bridge reflections'], zreEndpoint = {}}}) {
 		super();
 		this.wampEndpoint = wampEndpoint // format {url: String, realm: String}
+		this.zreObserverEndpoint = zreEndpoint
+		this.zreReflectionEndpoint = zreEndpoint
 		this.zreReflectionGroups = reflectionGroups
 
-		this.zreObserverNode = Zyre.new({name: 'WAMP Bridge', headers: {[Bridge.getVersionHeaderKey()]: Bridge.getVersion()}})
+		this.zreObserverEndpoint.name = 'WAMP Bridge'
+		if (this.zreObserverEndpoint.headers === undefined) this.zreObserverEndpoint.headers = {}
+		this.zreObserverEndpoint.headers[Bridge.getVersionHeaderKey()] = Bridge.getVersion()
+
+		this.zreObserverNode = Zyre.new(this.zreObserverEndpoint)
 		this.wampObserverNode = new Autobahn.Connection(this.wampEndpoint)
 
 		/**
@@ -189,7 +195,12 @@ module.exports = class Bridge extends EventEmitter {
 			name: `Reflection of WAMP session: ${wampSessionID}`,
 			headers: {
 				[Bridge.getWAMPsessionIdHeaderKey()]: wampSessionID
-			}
+			},
+			iface: this.zreReflectionEndpoint.iface,
+			evasive: this.zreReflectionEndpoint.evasive,
+			expired: this.zreReflectionEndpoint.expired,
+			bport: this.zreReflectionEndpoint.bport,
+			binterval: this.zreReflectionEndpoint.binterval,
 		})
 		this.zreReflectionsOfWampNodes.set(wampSessionID, zreReflection)
 		zreReflection.start().then(() => {
